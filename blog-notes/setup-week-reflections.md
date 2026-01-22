@@ -193,3 +193,60 @@ Started: January 19, 2026
 
 - It defaulted to providing me with code when I only asked for general guidance in a certain problem. I followed with clear instructions on how to respond when I am asking for help and guided it to clarify with me what precisely is it that I need - complete answer or tips. Let's see if it follows this going forward. 
 - I am baffled by how it measures the passage of time as it inacurately measured the time it took me to complete a certain task. Will keep monitoring it as well as ask for provision of logic behind estimation of time needed to complete the task tomorrow. 
+
+## Day 4 - Thursday Jan 22
+
+### What I accomplished today:
+- Completed R warmup exercise - verified R/RStudio environment working smoothly
+- Received and ran Python + Git mini-project (setup-week-tracker.py) - visualizes my Setup Week progress
+- Completed DataCamp Intermediate Python Chapter 4: Loops
+- Solved HackerRank problem: Print consecutive integers from 1 to n as string
+- Git commits completed
+
+### Key technical learnings:
+
+**enumerate() function:**
+- Automatically provides both index AND item in a loop
+- Returns two things: (index, item)
+- Example: `for index, color in enumerate(colors):`
+- Much cleaner than manually tracking a counter
+
+**iterrows() for DataFrames:**
+- Always returns TWO things in order: (1) row label/index, (2) row data as Series
+- Order is built into the function - first is always label, second is always data
+- No need to tell it which is which - it just works that way by design
+
+**range() function:**
+- Works like list slicing - stop number is exclusive (not included)
+- `range(1, n+1)` includes n because it stops BEFORE n+1
+- If you want 1 to 5: use `range(1, 6)`
+
+**+= operator (augmented assignment):**
+- Shorthand for adding to existing variable
+- `result += str(i)` is same as `result = result + str(i)`
+- Works with numbers and strings
+
+**str() function:**
+- Converts other data types to string
+- This is a built-in function, NOT a string method
+- Used in HackerRank challenge to build consecutive number string
+
+### Challenges faced:
+- Initially confused about whether HackerRank "basic" challenge needed a loop - it did!
+- Doubled input reading in HackerRank (had `n = int(input())` twice)
+- Day ran much longer than planned due to family issues - finished at 10pm instead of 5pm
+
+### Time management notes:
+- Had enforced break longer than planned
+- Started later than intended
+- Still managed to complete key tasks despite disruptions
+- Learning to be flexible with schedule while maintaining progress
+
+### Tomorrow (Day 5 - Final Setup Week day):
+- Replicate mini-project from scratch (setup-week-tracker.py)
+- Complete any remaining Setup Week tasks
+- Organize GitHub repository
+- Setup Week review and reflection
+- Prepare for Friday checkpoint (Jan 24)
+
+**Hours worked today:** ~6 hours (with extended breaks)
