@@ -250,3 +250,157 @@ Started: January 19, 2026
 - Prepare for Friday checkpoint (Jan 24)
 
 **Hours worked today:** ~6 hours (with extended breaks)
+
+# Day 5 - Friday January 23, 2026
+
+## What I accomplished today:
+
+- **Final integration test replaced with mini-project replication** - More valuable use of time
+- **Replicated setup-week-tracker.py from scratch** - Built Day 5 version tracking all Setup Week progress
+- **Completed DataCamp Intermediate Python Chapter 5** - Random walk simulation (case study)
+- **Solved HackerRank problem** - Print consecutive integers 1 to n as string
+- **Organized GitHub repository** - Created medium-drafts/ and cheat-sheets/ folders, updated README with professional documentation
+- **Revised 18-week master plan** - Added 40 hrs/week, 3 hrs industry research, 2 hrs R practice from Week 5
+- **Created detailed Week 1 plan** - Day-by-day breakdown with industry research sources
+- **Git commits completed** - Repository now professionally organized
+
+## Key technical learnings:
+
+### Random Walk Simulations & Probability
+- **Seed setting mechanism:** `np.random.seed()` creates a predetermined sequence of "random" numbers
+- Calling random functions moves through sequence (not a repeating cycle, but very long predetermined list)
+- Resetting seed returns to beginning of sequence
+- Use case: Reproducibility in simulations and research
+
+### f-strings (formatted strings)
+- Syntax: `f"Text {variable} more text"`
+- The `f` prefix tells Python to evaluate expressions inside `{}`
+- Much cleaner than concatenation: `f"Total: {sum}"` vs `"Total: " + str(sum)`
+- Can include calculations: `f"Result: {x + y}"`
+
+### Creating subplots with matplotlib
+- **`fig, axes = plt.subplots(2, 2)`** - Variable names are YOUR choice, not fixed
+- Function returns TWO things: figure object and axes array
+- Python unpacks them into separate variables
+- Access specific plots: `axes[row, col]` (zero-indexed)
+- Example: `axes[0, 0]` = top-left, `axes[1, 1]` = bottom-right
+
+### Object-oriented vs pyplot interface
+- **pyplot style:** `plt.title()` - works on "current" plot
+- **Object-oriented:** `axes[0,0].set_title()` - works on specific plot
+- Naming pattern: `plt.title()` → `axes.set_title()` (added "set_")
+- Use object-oriented when working with multiple subplots
+
+### The `+=` operator
+- Augmented assignment operator - shorthand for adding to variable
+- `result += str(i)` same as `result = result + str(i)`
+- Works with numbers and strings
+- Other variants: `-=`, `*=`, `/=`
+
+### `range()` function behavior
+- **Stop number is EXCLUSIVE** (not included), like list slicing
+- `range(1, n+1)` to include n (stops BEFORE n+1)
+- Example: `range(1, 6)` gives 1, 2, 3, 4, 5 (not 6)
+- Think: "up to but not including"
+
+### Problem-solving patterns
+- Breaking problems into logical steps
+- Using loops to build sequences iteratively
+- Converting between data types (int to string with `str()`)
+- Reading problem requirements carefully
+
+## Challenges faced:
+
+### VS Code display issue
+- Code "disappeared" from editor - turned out to be AI agent interface overlaying
+- File was still there and saved - just not visible
+- Solution: Click file tab or close AI panel
+- Learned: Always check if file exists in Terminal before panicking
+
+### Decision paralysis with mini-project
+- Recognized I wasn't ready to tackle from scratch today
+- Made strategic decision: Get complete code today, replicate tomorrow
+- Good time management - prioritized DataCamp completion when energy was low
+- Learning: It's okay to adapt plans based on energy levels and time constraints
+
+### Understanding subplot mechanics
+- Initial confusion about `fig, axes = plt.subplots()` syntax
+- Thought it might be a special command, not just variable assignment
+- Breakthrough: Understanding function returns and unpacking
+- This kind of questioning leads to deeper understanding
+
+## Time management notes:
+
+- Started Day 5 tasks
+- Completed W3Schools exercises ✓
+- Chose strategic approach to mini-project (receive code, replicate later)
+- Energy management: Tackled DataCamp Chapter 5 when fresh despite not being well-rested
+- Late finish due to time spent on planning documents (18-week revision, Week 1 plan)
+- Good prioritization: Got essential tasks done, documentation completed
+
+## Setup Week overall reflection:
+
+This was the FINAL day of Setup Week! Key achievements:
+- All technical environment working perfectly (Git, Python, R, VS Code)
+- Completed DataCamp Intermediate Python (all 5 chapters)
+- Established 5 daily habits (GitHub, DataCamp, W3Schools, notes, Jira)
+- Created 3 practice scripts with real datasets
+- Set up 5 learning platforms (LeetCode, HackerRank, Codewars, Kaggle, Medium)
+- Earned first HackerRank star
+- GitHub repository professionally organized
+- Revised 18-week plan ready for execution
+- Week 1 detailed plan complete
+
+**Ready for Week 1 on Monday, January 26!** 🚀
+
+## Tomorrow (Saturday, January 24):
+
+**CRITICAL CHECKPOINT DAY**
+- First probability tracking measurement
+- Assess actual hours vs 37.5 planned (likely hit ~40 with extended planning)
+- Review Setup Week accomplishments
+- Confirm readiness for Week 1
+- Mental preparation for the journey ahead
+
+## Personal notes:
+
+**On my progress and capabilities:**
+
+Claude's honest assessment was incredibly valuable and encouraging. Key points that resonated:
+- Feeling like I don't remember everything after 5 days is COMPLETELY NORMAL
+- Professional data analysts Google syntax daily - memorization isn't the goal
+- My strengths are in the RIGHT areas: asking why, identifying gaps, systematic thinking, problem-solving approach
+- The 80/20 rule: 80% is knowing WHAT and WHY (strategy, logic) - I'm strong here
+- The 20% is syntax (which comes with months of repetition, not days)
+- My background (business development, event management, market research) is actually PERFECT for the transition
+- Strategic thinking + technical skills = exactly what AI strategy roles need
+
+**Realistic timeline expectations:**
+- 4-6 weeks: Comfortable with basic syntax
+- 8-12 weeks: Building projects without constant help  
+- 18 weeks: Job-ready for data analyst roles
+- 12-18 months in data analyst role: Perfect positioning for AI strategy
+
+**The fact that I'm not overconfident is a GOOD sign** - being realistic and humble means I'll put in the practice needed.
+
+This assessment helped combat impostor syndrome and validated that I'm exactly where I should be. Not supposed to be fluent yet. Progress is on track.
+
+## Key insights for continuation:
+
+- Exposure → Practice → Mastery (currently in exposure phase)
+- Understanding concepts > memorizing syntax
+- Strategic adaptation of plans is smart, not weak
+- Energy management crucial for long-term success
+- Asking detailed questions = building solid foundations
+- Medium blog with AI observations will be unique differentiator
+
+**Setup Week Status: COMPLETE ✓**
+**Week 1 Status: READY TO BEGIN 🚀**
+
+---
+
+**Hours worked today:** ~6 hours (with planning work extending beyond typical day)
+**DataCamp chapters completed:** 1 (Chapter 5)
+**GitHub commits:** 2
+**New concepts mastered:** Random walks, seeding, subplots, f-strings, +=, range()
+**Problem-solving:** Strategic, adaptive, self-aware
