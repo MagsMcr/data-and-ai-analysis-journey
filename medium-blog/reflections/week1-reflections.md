@@ -225,3 +225,140 @@ Approximately 7 hours (strong recovery day after health interruption)
 ---
 
 **Overall Assessment:** Excellent Day 2. Completed all core learning objectives, created comprehensive practice work, and maintained habits despite starting from a difficult place. The frustration at the end is a sign of brain fatigue, not failure. Solid progress.
+
+# Week 1 Day 3 - Wednesday, January 29, 2026
+
+**Focus:** pandas Chapter 3 - Advanced Indexing & Pivot Tables
+
+## What I Completed Today:
+- ✅ DataCamp: Data Manipulation with pandas - Chapter 3
+- ✅ Created w1d3-pandas-practice.py with student AI dataset
+- ✅ Completed Netflix Movies guided project
+- ✅ All 5 daily habits maintained
+
+## Chapter 3 Key Concepts Learned:
+
+### Setting and Sorting Indexes:
+- `.set_index('column')` - convert column to index
+- `.sort_index()` - sort by index values
+- Multi-level indexes: `.sort_index(level=['col1', 'col2'], ascending=[True, False])`
+- **Important:** Can only slice an index if the index is sorted (especially for multi-level)
+
+### Slicing with .loc[]:
+- `.loc['start':'end']` - slice by index labels (inclusive of both ends)
+- Works with sorted indexes
+- Multi-level slicing: `.loc[('country1', 'city1'):('country2', 'city2')]`
+
+### Position-Based Subsetting with .iloc[]:
+- `.iloc[:5, 2:4]` - first 5 rows, columns 2-3 (remember: 0-indexed, end-exclusive)
+- More flexible than .loc[] - doesn't require sorted index
+- Useful for "first N rows" or "every Nth row" type selections
+
+### Pivot Tables:
+```python
+df.pivot_table(
+    values='what_to_aggregate',
+    index='row_grouping',
+    columns='column_grouping',
+    aggfunc='mean'  # or 'sum', 'count', etc.
+)
+```
+- Reorganizes data into cross-tabulation format
+- Good for summarizing relationships between two categorical variables
+- **Note:** Pivot tables go against tidy data principles - not used super frequently in real analysis
+
+### Subsetting Pivot Tables:
+- By rows: `pivot.loc['row_label']` or `pivot.loc[['row1', 'row2']]`
+- By columns: `pivot['column_name']` or `pivot[['col1', 'col2']]`
+- Both: `pivot.loc['row', 'column']`
+
+### Calculating Means Across Axes:
+- `.mean()` (no axis specified) = mean DOWN columns (default: axis=0)
+- `.mean(axis='columns')` or `.mean(axis=1)` = mean ACROSS columns
+- Finding extremes: `.idxmax()` returns index of maximum, `.idxmin()` returns index of minimum
+- Alternative filtering: `series[series == series.max()]`
+
+## Technical Insights:
+
+### GroupBy Object vs Executed GroupBy:
+- `df.groupby('column')['value']` creates a GroupBy object (doesn't show data)
+- Need to add aggregation to execute: `.mean()`, `.agg(['min', 'max'])`, etc.
+- GroupBy only "executes" when you tell it what calculation to perform
+
+### Mode with GroupBy:
+- `.mode()` exists but is tricky with groupby (can return multiple values)
+- Use: `df.groupby('col')['value'].agg(lambda x: x.mode()[0])` 
+- For whole column: `df['column'].mode()[0]` (returns Series, need [0] for value)
+
+### Print Statement Formatting:
+- `\n` creates blank line for visual spacing
+- Each `print()` automatically moves to next line
+- Use `\n` when you want extra space between sections for readability
+
+## Netflix Movies Project:
+
+### Tasks Completed:
+1. Found most frequent movie duration in 1990s using `.mode()[0]`
+2. Counted short action movies (< 90 minutes) using `len()` on filtered DataFrame
+
+### Key Pattern Learned:
+- Filter first, then count: `len(df[conditions])`
+- Filtering creates new DataFrame with only matching rows
+- `len()` counts rows in that filtered DataFrame
+
+## Common Mistakes Made (and Fixed!):
+- Trying to use `.unique()` as DataFrame method instead of Series method
+- Forgetting `[0]` after `.mode()` to extract the actual value
+- Column name typos (`year` vs `release_year`)
+- Missing parentheses in print statements
+- **Reminder:** These are completely normal beginner mistakes that everyone makes!
+
+## Challenges & Realizations:
+
+### Multi-Level Indexes:
+- Struggled to visualize multi-dimensional pivot tables mentally
+- Decision: Practice with real data will help more than more explanations
+- These aren't used frequently in real analysis anyway
+- Understanding they exist is more important than mastering them right now
+
+### Strategic Time Management:
+- Running behind schedule and tired
+- Made strategic choice: Let Claude write Day 3 practice script, focus energy on Netflix project
+- This allowed completion of all core learning while managing fatigue
+- Not cutting corners - prioritizing guided practice over redundant solo practice
+
+### Netflix Project Scope:
+- Only 2 required tasks (much lighter than expected)
+- Completed quickly in DataCamp environment
+- Good reinforcement of filtering and aggregation concepts
+
+## What's Working Well:
+- Understanding when to ask for help vs. push through
+- Recognizing appropriate vs inappropriate problem difficulty
+- Strategic time allocation when tired
+- Applying concepts across different datasets
+- Asking "why" questions about syntax and methods
+
+## Investigate Further / Revise:
+- Multi-level indexes: Know they exist, can look up when needed, but not priority
+- Axis confusion (axis=0 vs axis=1): Will become clearer with more practice
+- w1d3-pandas-practice.py: Review output to see how concepts apply to student data
+
+## Hours Worked: ~8 hours
+- DataCamp Chapter 3: ~2 hours
+- Practice script creation & review: ~1.5 hours
+- Netflix project: ~1 hour
+- Strategic planning and time management: ~0.5 hour
+- Questions and concept clarification: ~2 hours
+- Documentation and wrap-up: ~1 hour
+
+## Tomorrow (Day 4) Plan:
+- pandas Chapter 4 (final chapter of Data Manipulation with pandas)
+- Additional practice if needed
+- Continue building toward Week 1 completion Friday
+
+---
+
+**Day 3 Status: COMPLETE ✓**  
+**Momentum: Strong despite fatigue**  
+**Strategic thinking: Excellent**
