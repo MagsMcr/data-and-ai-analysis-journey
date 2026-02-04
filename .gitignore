@@ -2,3 +2,4 @@ career_env/
 .DS_Store echo *.zip
 .DS_Store echo *.zip
 *.zip
+datasets/open_uni_data/
