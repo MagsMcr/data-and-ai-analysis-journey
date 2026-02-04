@@ -376,3 +376,291 @@ The decision to move Chapter 2 to tomorrow was SMART, not lazy. Quality learning
 **Day 1 Status: COMPLETE ✅**  
 **Mindset for Day 2:** Trust the process, one chapter at a time, struggles are normal  
 **Tomorrow's motto:** "I'm learning, not failing"
+
+## Week 2 Day 2 - Tuesday, February 4, 2026
+
+### Today's Accomplishments
+
+**DataCamp:**
+- ✅ Completed Joining Data with pandas - Chapter 2 (Left, Right, Outer, Cross Joins)
+- ✅ W3Schools practice (done at start of day)
+
+**Practice Script:**
+- ✅ Created `w2d2-join-comparison.py` - Student Engagement Analysis by Age Group
+- ✅ Used real OULAD dataset (Open University Learning Analytics Dataset)
+- ✅ Worked with 7 interconnected tables (114,970+ responses)
+- ✅ Demonstrated inner join and left join with real education data
+- ✅ Analyzed age groups and online learning engagement
+
+**Industry Research (Double Session - 80 min):**
+- ✅ Researched UK education sector trends
+- ✅ Found National Literacy Trust as target organization
+- ✅ Downloaded full 2025 reading survey report
+- ✅ Created summary notes for 2 articles (Tes + NLT)
+
+**Project Organization:**
+- ✅ Created new `job-research/` directory structure
+- ✅ Set up subdirectories: companies/, job-descriptions/
+- ✅ Created first target company notes: National Literacy Trust
+
+**Daily Habits:**
+- ✅ GitHub commits
+- ✅ DataCamp progress
+- ✅ W3Schools practice
+- ✅ Learning notes
+- ✅ Jira updates
+
+---
+
+### Technical Concepts Learned
+
+#### Join Types Mastered Today:
+
+**Left Join:**
+- Keeps ALL rows from left DataFrame
+- Adds matching data from right DataFrame
+- Non-matching rows get NaN for right columns
+- Use when: You want ALL records from primary dataset
+
+**Right Join:**
+- Keeps ALL rows from right DataFrame
+- Adds matching data from left DataFrame
+- Non-matching rows get NaN for left columns
+- Use when: You want ALL records from secondary dataset
+- **Key insight:** Right joins are just backwards left joins! Most analysts just swap table order and use left join instead
+
+**Outer Join (Full Outer Join):**
+- Keeps ALL rows from BOTH DataFrames
+- Matches where possible
+- NaN where no match exists
+- Use when: You want complete picture from both datasets
+
+**Cross Join:**
+- Every row in left matched with EVERY row in right
+- Creates Cartesian product
+- Can create HUGE DataFrames quickly
+- Use when: You need all possible combinations
+
+**Self-Join:**
+- Joining a table to itself
+- Allows comparing rows WITHIN same table by putting them side-by-side
+- Example: Matching directors with their crew members
+- Use when: Need to compare values in same column to each other
+
+#### Key Understanding:
+
+**WHEN to use each join type is more important than HOW to write the syntax!**
+
+This is about decision-making, not just mechanics.
+
+---
+
+### Important Clarifications Today
+
+#### Inner Joins and Missing Values:
+- Inner joins discard rows where JOIN KEY doesn't match
+- Missing values (NaN) in OTHER columns are preserved
+- The join key must exist in both tables, but other columns can have NaN
+
+#### Multiple Join Keys:
+- Join on multiple columns when COMBINATION uniquely identifies a match
+- Example: `['country', 'city']` because just 'city' isn't unique
+- NOT for handling missing values in join keys
+
+---
+
+### Real-World Project Experience
+
+#### Working with OULAD Dataset:
+
+**Dataset Details:**
+- 7 interconnected CSV files
+- 114,970 student responses
+- Open University Learning Analytics Dataset
+- Real academic research data
+
+**Tables Used:**
+1. `studentInfo` - Demographics (32,593 students)
+2. `studentRegistration` - Enrollment data
+3. `studentVle` - 10.6 MILLION click interactions (sampled to 1%)
+
+**Project Approach:**
+- Explored all 7 tables first
+- Analyzed VLE presentation distribution to decide sampling strategy
+- Used random sampling (1% - advanced technique by Claude)
+- Performed joins to analyze age vs. engagement
+
+**Key Finding:**
+- 55<= age group showed HIGHEST average engagement (29.36 clicks)
+- 0-35 age group showed LOWEST average engagement (12.26 clicks)
+- BUT recognized need for proper statistical analysis due to outliers
+
+**Statistical Limitations Acknowledged:**
+- Large gaps between average and median suggest outliers
+- Would need: box plots, standard deviation, significance tests
+- Current analysis = preliminary observations only
+- Proper validation requires statistical tools (coming in future weeks)
+
+---
+
+### Professional Collaboration Skills
+
+**Today's Workflow:**
+- Directed AI assistant to write code with specific requirements
+- Made strategic decisions about data sampling
+- Requested appropriate level of AI assistance
+- Reviewed and understood all generated code
+- Created transparent documentation about AI use
+
+**This is realistic portfolio building!** Professional developers:
+- Collaborate with colleagues
+- Ask for help on specific tasks
+- Delegate when appropriate
+- Review and understand all code
+- Document their process
+
+---
+
+### Industry Research Insights
+
+#### UK Education Sector:
+
+**Reading Crisis Findings:**
+- Only 32.7% of children (8-18) enjoy reading - lowest in 20 years
+- Daily reading at 18.7% - also lowest ever recorded
+- Steepest decline in primary-aged children and boys (11-16)
+
+**National Literacy Trust:**
+- Runs Annual Literacy Survey (114,970+ responses in 2025)
+- Evidence-based charity approach
+- Data-rich organization = potential target employer
+- Relevant roles: Data analyst, research analyst, AI strategy
+
+**Connection:** The Tes article about reading pleasure decline is directly supported by NLT's comprehensive survey data
+
+---
+
+### Personal Insights & Reflections
+
+**On Age and Online Learning:**
+Created analysis exploring how age relates to online learning engagement as a woman in my 40s retraining through online education. Personal investment in understanding these patterns.
+
+**On Confidence with New Concepts:**
+- Right joins were confusing initially
+- Understanding they're just "backwards left joins" helped
+- Professional analysts rarely use them - just swap tables and use left join!
+- This kind of clarification prevents overthinking
+
+**On Statistical Thinking:**
+Excellent self-awareness today recognizing that average vs. median gaps suggest outliers. The preliminary findings SUGGEST older students engage more, but proper statistical analysis needed to confirm. This is good scientific thinking!
+
+**On Project Organization:**
+Separating learning reflections (personal experience) from industry research notes (external knowledge) is excellent organization. Created new job-research directory to track target companies systematically.
+
+---
+
+### Investigate Further / Revise
+
+**PRIORITY SKILL GAP IDENTIFIED:**
+- **Loading multiple CSV files programmatically** (not manually one by one)
+- File system operations (`os` module, listing files, path handling)
+- Dictionary comprehension for storing multiple DataFrames
+- List comprehensions for filtering files
+
+**ACTION:** When I reach DataCamp course on "Importing Data in Python":
+- Focus on `os.listdir()`, `os.path.join()`
+- Practice loading multiple files in loops
+- Understand how to dynamically work with file systems
+- Goal: Write exploration scripts like today's independently
+
+**Statistical Analysis Skills:**
+- Need to learn: box plots, standard deviation, significance tests
+- Coming in future DataCamp courses
+- Will return to OULAD dataset with proper tools
+
+**Right Join Understanding:**
+- Fully understood now
+- They're just backwards left joins
+- Most analysts don't use them - swap table order instead
+
+---
+
+### What Went Well
+
+✅ Completed Chapter 2 - all join types understood  
+✅ Made strategic decision about sampling approach  
+✅ Used real-world dataset with meaningful analysis  
+✅ Recognized statistical limitations appropriately  
+✅ Created transparent documentation about AI assistance  
+✅ Excellent project organization (job-research directory)  
+✅ Double industry research session completed  
+✅ Found target organization (National Literacy Trust)  
+✅ All daily habits maintained 100%  
+
+---
+
+### Challenges & Solutions
+
+**Challenge:** Understanding right joins  
+**Solution:** Realized they're just backwards left joins - most analysts just swap tables and use left join instead. This removed confusion!
+
+**Challenge:** Working with 10.6 million row dataset  
+**Solution:** Used 1% random sampling (advanced technique by Claude, clearly documented)
+
+**Challenge:** Preliminary findings about age and engagement  
+**Solution:** Recognized limitations, acknowledged need for proper statistical analysis, added caveat to script
+
+**Challenge:** Organizing different types of notes  
+**Solution:** Created separate directories: learning reflections vs. industry research vs. job research
+
+---
+
+### Tomorrow's Focus (Day 3)
+
+**DataCamp:**
+- Chapter 3: Different Join Keys, Semi/Anti Joins
+- Start Chapter 4: Concatenating
+
+**Practice:**
+- Create w2d3 practice script
+
+**Industry Research:**
+- Continue building notes
+
+**Keep in mind:**
+- One chapter per day = sustainable pace
+- Deep understanding over speed
+- Systematic approach prevents knowledge loss
+
+---
+
+### Hours Worked Today
+~7 hours ✓
+
+**Breakdown:**
+- DataCamp Chapter 2: ~90 min
+- Dataset exploration: ~60 min
+- Practice script creation & analysis: ~120 min
+- Industry research (double session): ~80 min
+- Project organization: ~20 min
+- Wrap-up: ~30 min
+
+---
+
+### Confidence Level: 8/10
+
+**Why 8/10:**
+- ✅ All join types understood (including the confusing right join!)
+- ✅ Successfully worked with complex real-world dataset
+- ✅ Good statistical thinking (recognizing limitations)
+- ✅ Professional collaboration approach
+- ✅ Excellent organization and documentation
+
+**What would make it 10/10:**
+- Independent ability to load multiple files programmatically
+- Statistical analysis skills to properly validate findings
+- These are coming in future learning - on track!
+
+---
+
+**Overall: Excellent Day 2! Strong technical progress, professional approach, good self-awareness about limitations, and excellent project organization. The systematic approach is working perfectly!** 💪
