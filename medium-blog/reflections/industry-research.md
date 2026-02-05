@@ -67,4 +67,45 @@ Annual Literacy Survey findings from 114,970 children and young people aged 5-18
 
 **Note:** Full report downloaded for detailed methodology review.
 
+
+## Digital literacy is no longer enough - our pupils need digital maturity
+
+**Source:** Tes  
+**Link:** https://www.tes.com/magazine/analysis/specialist-sector/digital-literacy-no-longer-enough-our-pupils-need-digital  
+**Date:** 4th February 2026, 5:00am  
+**Author:** Shoaib Raza (senior international leader)
+
+### Main Topic:
+The rise of AI means children today don't just need to know how to use technology – they need to know when to use it. The article argues that schools must shift from teaching digital literacy to teaching digital maturity.
+
+### Key Points:
+- **Digital literacy vs Digital maturity:** Digital literacy focuses on HOW to use technology, while digital maturity focuses on WHEN to use it
+- **AI context:** The proliferation of AI tools makes this shift critical - students need judgment and decision-making skills, not just technical skills
+- **Educational imperative:** Schools must evolve their digital education approach to prepare students for AI-rich environments
+- **Senior leadership perspective:** Written by an international education leader, suggesting this is a strategic priority at institutional level
+
+### Relevance to My Field:
+
+**For Data Analysis in Education:**
+- This represents a shift in what schools will measure and track - not just technology usage but quality of decision-making around technology use
+- Potential for analytics around student decision-making patterns with AI tools
+- New KPIs emerging: digital maturity metrics vs. traditional digital literacy metrics
+
+**For AI Strategy Roles:**
+- Confirms education sector is actively thinking about AI integration strategically
+- "Digital maturity" could become a key framework for AI product development in EdTech
+- Opportunity to develop assessment tools or analytics dashboards measuring digital maturity
+
+**For Job Search:**
+- Language to use in applications: "digital maturity," not just "digital literacy"
+- Shows UK education sector is forward-thinking about AI
+- Validates focus on education sector for AI strategy roles
+
+### Follow-up Questions to Explore:
+- How would schools measure "digital maturity"? (Data opportunity!)
+- What metrics distinguish mature vs immature digital decision-making?
+- Are there existing frameworks/assessments for digital maturity in education?
+
 ---
+
+**Note:** Article was published in Tes (UK's primary education publication), indicating this is a mainstream conversation in UK education policy circles, not fringe thinking.

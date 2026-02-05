@@ -664,3 +664,332 @@ Separating learning reflections (personal experience) from industry research not
 ---
 
 **Overall: Excellent Day 2! Strong technical progress, professional approach, good self-awareness about limitations, and excellent project organization. The systematic approach is working perfectly!** 💪
+
+# Week 2 Day 3 - Learning Notes
+
+**Date:** Wednesday, February 5, 2026  
+**Focus:** Joining Data with pandas - Chapter 3 (Different Join Keys, Semi/Anti Joins, Concatenation)  
+**Hours Worked:** ~8 hours  
+**Status:** ✅ All objectives complete
+
+---
+
+## 📚 What I Learned Today
+
+### pandas Chapter 3 Concepts Mastered
+
+**1. Merging on Different Column Names**
+
+When join keys have different names in each DataFrame, use `left_on` and `right_on`:
+
+```python
+df1.merge(df2, left_on='student_id', right_on='id', how='inner')
+```
+
+**Important:** This creates BOTH columns in the result - you may need to drop one afterward.
+
+**2. Merging on Multiple Columns**
+
+Can merge on combinations of columns:
+
+```python
+df1.merge(df2, on=['code_module', 'code_presentation'], how='left')
+```
+
+This is useful when a single column isn't unique but the combination is.
+
+**3. Semi Joins - "Filter Based on Match"**
+
+**What it does:** Returns rows from left table that HAVE a match in right table, but ONLY left table columns.
+
+**Use case:** "Show me students who submitted at least one assessment" (student data only, not assessment details)
+
+**How to do it in pandas:**
+```python
+students_who_submitted = students[students['id'].isin(assessments['student_id'])]
+```
+
+**Key insight:** This is a FILTERING operation, not a data combining operation. You don't get any columns from the right table.
+
+**4. Anti Joins - "Filter Based on NO Match"**
+
+**What it does:** Returns rows from left table that DON'T have a match in right table.
+
+**Use case:** "Show me students who NEVER submitted any assessments"
+
+**How to do it in pandas:**
+```python
+students_no_submission = students[~students['id'].isin(assessments['student_id'])]
+```
+
+**The `~` operator:** Negates the boolean (flips True/False)
+
+**5. Concatenating DataFrames Vertically**
+
+**What it does:** Stacks rows from multiple DataFrames on top of each other.
+
+```python
+# Basic concatenation
+combined = pd.concat([df1, df2, df3])
+
+# With clean index (recommended!)
+combined = pd.concat([df1, df2, df3], ignore_index=True)
+```
+
+**`ignore_index=True`:** Creates new sequential index (0, 1, 2, 3...) instead of keeping original indexes (which could have duplicates).
+
+**When to use:** Combining data from same structure but different sources (e.g., student data from multiple years).
+
+---
+
+## 💻 Coding Practice Insights
+
+### Solved Problems:
+
+1. **Rock Paper Scissors function** - Used dictionary to store winning combinations instead of multiple if statements (cleaner!)
+2. **Find needle in haystack** - Learned difference between `print()` vs `return` (again!)
+3. **Split and join strings** - Missing `return` statement caused `None` output
+
+### Key Learning: `print()` vs `return`
+
+**`print()`** = Shows output on screen FOR YOU  
+**`return`** = Sends value back to code FOR THE PROGRAM
+
+**Tests always check return values!** If you print without returning, tests get `None`.
+
+This is my second time making this mistake - need to remember: **Functions that produce results need `return`!**
+
+### Dictionary Lookup Pattern
+
+When you have `winning_moves[p1]`:
+1. **Left side (`winning_moves`):** The dictionary
+2. **Square brackets `[p1]`:** Subsetting/lookup operation  
+3. **Inside brackets (`p1`):** The key
+4. **Returns:** The value for that key
+
+This is just like `df['column']` or `my_list[0]` - subsetting works the same way!
+
+---
+
+## 🎯 Practice Script: Student Unregistration Analysis
+
+### What I Created:
+
+Comprehensive analysis of OULAD (Open University Learning Analytics Dataset) examining:
+- WHO unregisters (demographics)
+- WHEN they unregister (timing patterns)
+- WHICH courses have high dropout rates
+- Comparing students who DID vs DIDN'T submit assessments before dropping
+
+### Concepts Demonstrated:
+
+✅ **Different join keys:** Merged using `code_module + code_presentation` together  
+✅ **Semi join:** Filtered dropouts who exist in assessment submissions  
+✅ **Anti join:** Filtered dropouts who DON'T exist in assessment submissions  
+✅ **Multiple sequential merges:** studentInfo → studentRegistration → courses  
+✅ **Left joins:** Added course and assessment details  
+
+### Research Questions Explored:
+
+**Part 1 - Dropout Profile:**
+- Timing: When do students typically drop out?
+- Courses: Which courses have highest dropout rates?
+- Demographics: Any patterns by age, gender, education, disability?
+
+**Part 2 - Engagement Comparison:**
+- What % of dropouts submitted assessments?
+- How do demographics differ between submitters vs non-submitters?
+- For submitters: What assessment types? How many? What scores?
+
+### Key Insight from Analysis:
+
+**Understanding WHEN to use each join type is more important than HOW to write the syntax.**
+
+- **Semi/Anti joins** = Filtering operations (asking "does it exist?")
+- **Regular joins** = Data combining operations (adding columns from both tables)
+
+### Technical Challenge Solved:
+
+**Error:** `KeyError: 'code_module'` 
+
+**Cause:** After merging studentInfo + studentRegistration, both had `code_module` columns, so pandas added suffixes (`_info` and `_reg`).
+
+**Solution:** Use `left_on` and `right_on` to specify which suffixed version to use:
+```python
+df.merge(courses, left_on=['code_module_info', 'code_presentation_info'], 
+         right_on=['code_module', 'code_presentation'], how='left')
+```
+
+**Lesson:** Pay attention to column name conflicts when merging!
+
+---
+
+## 📰 Industry Research
+
+### Article 1: Digital Maturity in Education (Tes)
+
+**Source:** Tes, February 4, 2026  
+**Author:** Shoaib Raza (senior international leader)
+
+**Main Point:** Education needs to shift from teaching "digital literacy" (HOW to use technology) to "digital maturity" (WHEN to use technology) because of AI proliferation.
+
+**Why This Matters:**
+- Shows UK education sector thinking strategically about AI
+- "Digital maturity" = new framework I can reference in interviews
+- Clear data opportunity: How do you MEASURE digital maturity?
+- This is mainstream thinking (published in Tes), not fringe
+
+**For My Job Search:**
+- Language to use: "digital maturity" not just "digital literacy"
+- Potential to develop assessment tools/analytics for measuring this
+- Validates focus on education sector for AI strategy roles
+
+### Article 2: 5 UK EdTech Startups (Career Teachers)
+
+**Companies Identified:**
+
+1. **Century Tech** - AI-powered personalized learning, automates homework/marking, provides student data
+2. **Lexplore** - AI + eye-tracking for reading assessment, addresses UK literacy crisis
+3. **Peergrade** - Peer feedback platform with teacher analytics dashboard
+4. **Firefly** - All-in-one teacher portal, 2/3 of UK independent schools use it
+5. **Mondly** - AR/VR language learning
+
+**Target Companies for Job Search:**
+- **Century Tech** ← Heavy AI/data focus!
+- **Lexplore** ← Heavy AI/data focus!
+
+Both are UK EdTech companies solving real educational problems with data analytics - perfect fit for my background and goals.
+
+---
+
+## 🎓 What Went Well
+
+✅ **Chapter 3 completed** - Semi/anti joins make sense now!  
+✅ **DataCamp explanation was poor** - but I asked for help and got clear explanations  
+✅ **Practice script is comprehensive** - Real research questions, professional collaboration approach  
+✅ **Coding practice** - Solved multiple problems, reinforced `return` vs `print`  
+✅ **Industry research** - Found 2 target companies (Century, Lexplore)  
+✅ **Strategic thinking** - Used EdTech list to identify data-heavy companies  
+✅ **All 5 daily habits maintained** - 100% compliance continues!  
+
+---
+
+## 💪 Challenges Overcome
+
+**1. DataCamp's Poor Explanation of `indicator=True`**
+
+DataCamp used `indicator=True` in merge without explaining it first. Had to ask Claude what it does.
+
+**What I learned:** `indicator=True` automatically creates a `_merge` column showing where each row came from:
+- `'left_only'` = Row only in left table
+- `'right_only'` = Row only in right table  
+- `'both'` = Row matched in both tables
+
+This is useful for data quality checks!
+
+**2. KeyError with Column Names After Merge**
+
+When merging tables with same column names, pandas adds suffixes. Need to use `left_on`/`right_on` to specify which version.
+
+**3. Syntax Issues in Coding Practice**
+
+Made `return` vs `print` mistake again - but caught it faster this time and understood WHY tests were failing.
+
+**4. Understanding Semi/Anti Joins Conceptually**
+
+Initially confused about why you'd want "just the left table columns" - Claude's explanation about FILTERING vs COMBINING clicked.
+
+---
+
+## 🔍 Investigate Further / Revise
+
+### Technical Concepts to Revisit:
+
+1. **Column name conflicts in merges** - Practice more scenarios where both tables have overlapping columns
+2. **When to use ignore_index=True** - Understand all implications of keeping vs. resetting indexes
+3. **Dictionary lookup syntax** - Keep practicing `dict[key]` pattern until it's automatic
+4. **`~` operator for negation** - Practice using this in different boolean contexts
+
+### Industry Research Follow-up:
+
+1. **Century Tech & Lexplore** - Create detailed company research files
+   - Check their LinkedIn for data analyst job postings
+   - Research their tech stack
+   - Look for recent news/funding rounds
+   
+2. **Digital maturity measurement** - How would you actually measure this? 
+   - What metrics distinguish mature vs immature digital decision-making?
+   - Are there existing frameworks?
+   - Research opportunity for future exploration
+
+3. **Data integration research** - Scheduled for tomorrow
+   - How UK schools integrate data across systems (SIMS, Google Classroom, etc.)
+   - How publishers integrate editorial/sales/production data
+   - Common data integration challenges in both sectors
+
+### Skills to Practice:
+
+1. **More semi/anti join scenarios** - Practice identifying when these are appropriate vs regular joins
+2. **Complex multi-table merges** - Work through scenarios requiring 4+ table joins
+3. **Return statements in functions** - Write 10 simple functions to reinforce this pattern
+
+---
+
+## 📊 Day 3 Statistics
+
+**DataCamp:** Chapter 3 complete (Different Join Keys, Semi/Anti Joins, Concatenation)  
+**W3Schools:** Practice exercises complete  
+**Coding Practice:** 3+ problems solved (Codewars/HackerRank)  
+**Practice Script:** w2d3-unregistration-analysis.py (350+ lines, comprehensive analysis)  
+**Industry Research:** 2 articles, 5 companies identified, 2 targets selected  
+**Git Commits:** Pending (end of day)  
+**Jira Updates:** Pending (end of day)  
+
+**Hours:** ~8 hours total  
+**Daily Habits:** 5/5 complete ✅
+
+---
+
+## 💭 Reflections
+
+**What I'm Learning About My Process:**
+
+Today reinforced that **asking for help when DataCamp is unclear is the RIGHT approach** - not a sign of weakness. DataCamp used `indicator=True` without explanation, I asked, got clarity, moved forward. This is how professional developers work!
+
+**Pattern Recognition:**
+
+I'm getting faster at recognizing when I need different types of joins. The decision tree is becoming clearer:
+- Need data from both tables? → Regular join
+- Just checking if match exists? → Semi/anti join
+- Stacking similar data? → Concatenation
+
+**Confidence Building:**
+
+Made the `print` vs `return` mistake again, but this time I:
+1. Recognized the error pattern faster
+2. Understood WHY it failed (tests check return values)
+3. Fixed it immediately
+4. Documented the lesson
+
+This shows I'm learning from mistakes, not just repeating them.
+
+**Strategic Thinking:**
+
+Using the EdTech article to identify data-heavy companies (Century, Lexplore) shows I'm thinking strategically about job search, not just consuming information. This is exactly the kind of targeted research that will help in applications.
+
+---
+
+## ✅ Tomorrow's Focus (Day 4)
+
+**Planned Activities:**
+- DataCamp: Joining Data with pandas - Chapter 4 (final chapter!)
+- Practice script demonstrating Chapter 4 concepts
+- Continue industry research (data integration in target sectors)
+- Coding practice
+- All daily habits
+
+**Key Goal:** Complete the entire "Joining Data with pandas" course by end of Day 4!
+
+---
+
+**End of Day 3 - Excellent Progress! 🚀**
