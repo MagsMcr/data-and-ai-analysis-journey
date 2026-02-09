@@ -993,3 +993,291 @@ Using the EdTech article to identify data-heavy companies (Century, Lexplore) sh
 ---
 
 **End of Day 3 - Excellent Progress! 🚀**
+
+Week 2 Day 4 Learning Notes
+Date: Monday, February 9, 2026
+Focus: Completing "Joining Data with pandas" Chapter 4 + Practice Script (in progress)
+
+What I Accomplished Today
+DataCamp Progress
+✅ Completed Chapter 4 of "Joining Data with pandas"
+✅ COMPLETED ENTIRE "Joining Data with pandas" COURSE! 🎉
+Chapter 4 Concepts Covered:
+
+pd.merge_ordered() - merging time-series data with gaps, forward fill option
+pd.merge_asof() - fuzzy matching on sorted data (backward/forward/nearest)
+.melt() - reshaping wide data to long format
+String slicing with step parameter (e.g., [::-1] to reverse)
+
+Additional Learning
+✅ W3Schools pandas practice (15 min)
+✅ Multiple Codewars/HackerRank challenges:
+
+String manipulation (removing spaces, reversing strings)
+Character case checking (.isupper(), .islower())
+Solved several 8 kyu problems successfully
+
+✅ Fixed SSL certificate issue on Mac (permanent fix - can now use sns.load_dataset())
+✅ Received comprehensive Python & pandas cheat sheet - organized by task type with documentation-style syntax for all concepts learned so far
+Practice Script Progress
+✅ Started Week 2 Day 4 practice script using OULAD dataset
+✅ Completed through Step 7 (merge_ordered demonstration)
+⏸️ Paused at Step 8 (merge_asof preparation) - will complete tomorrow
+What I demonstrated in practice script:
+
+Merged multiple OULAD tables (studentAssessment + assessments)
+Filtered to specific course (AAA 2013J)
+Created aggregated DataFrames (daily submission counts)
+Successfully used pd.merge_ordered() with forward fill
+Observed real patterns: submission spike on deadline day (138 submissions on day 19!)
+
+
+Key Technical Concepts Learned
+1. merge_ordered Syntax & Usage
+What it does: Merges time-series data with automatic sorting and optional forward fill
+When to use:
+
+Time-series data with gaps in dates
+Need to fill missing values forward
+Want results automatically sorted by time
+
+Key insight: Column order matters with fill_method='ffill'!
+
+on=['date', 'country'] → fills across countries (WRONG for most cases)
+on=['country', 'date'] → fills within countries (RIGHT)
+
+Real example from practice:
+Before deadline (day 7-18): id_assessment = NaN
+On deadline (day 19): id_assessment = 1752
+After deadline (day 20+): id_assessment = 1752 (forward filled!)
+2. merge_asof Syntax & Usage
+What it does: Fuzzy matching on sorted data - finds nearest match
+Direction options:
+
+'backward' (default): Match to nearest value ≤ key (look back in time)
+'forward': Match to nearest value ≥ key (look forward in time)
+'nearest': Match to absolute closest value (either direction)
+
+CRITICAL: Both DataFrames MUST be sorted on the merge column!
+Use case from practice: Match student submissions to their most recent VLE activity (how engaged were they before submitting?)
+3. melt (Reshaping Data)
+What it does: Converts wide format to long format (opposite of pivot_table)
+Pattern:
+
+Wide: Each variable is a column (Q1, Q2, Q3, Q4)
+Long: One "variable" column, one "value" column (quarter, sales)
+
+4. String Slicing with Step Parameter
+Full syntax: [start:end:step]
+Step parameter:
+
+Positive step: Move forward through sequence
+Negative step: Move backward through sequence
+[::-1] = reverse entire string/list
+
+Examples:
+python"hello"[::-1]  # "olleh"
+[1,2,3,4,5][::2]  # [1, 3, 5] (every 2nd element)
+5. String Methods for Case Checking
+New methods learned:
+
+.isupper() - Returns True if character/string is uppercase
+.islower() - Returns True if character/string is lowercase
+.isalpha() - Returns True if character is a letter (not space/punctuation/number)
+
+Important: Non-letter characters (spaces, punctuation, numbers) return False for .isupper()
+Professional practice: Be explicit about intent
+python# Works but relies on implicit behavior
+if x.isupper():
+    result += x.lower()
+else:
+    result += x.upper()
+
+# Better - explicit about letters vs non-letters
+if x.isalpha():
+    if x.isupper():
+        result += x.lower()
+    else:
+        result += x.upper()
+else:
+    result += x  # Keep non-letters unchanged
+6. Groupby with .size() vs .count()
+Difference:
+
+.size() - Counts all rows (including NaN)
+.count() - Counts non-null values only
+
+After .size():
+
+Count column is named 0 (not the original column name!)
+Must rename 0 to meaningful name
+
+7. Data Preparation Workflow
+Real-world insight from practice:
+
+Tables don't always have all the columns you need
+Solution: Merge first to add missing columns, THEN filter
+Example: studentAssessment didn't have course info → merged with assessments first
+
+
+Challenges Encountered & Solutions
+Challenge 1: SSL Certificate Error
+Problem: Python couldn't verify HTTPS connections (certificate error when using sns.load_dataset())
+Cause: Mac Python installation missing certificate authorities
+Solution: Ran sudo /Applications/Python\ 3.11/Install\ Certificates.command
+Result: Permanent fix - can now download data from URLs
+Challenge 2: Accidental vs Intentional Code
+Problem: Code worked but relied on implicit Python behavior (.isupper() returns False for non-letters)
+Learning: Professional code should be explicit about intent, not rely on quirks
+Growth: Recognized this myself and asked about better practices - professional thinking!
+Challenge 3: Column Doesn't Exist After Groupby
+Problem: Tried to rename 'id_student' column but it didn't exist
+Cause: .size() creates a column named 0, not the original column name
+Solution: Rename 0 instead of 'id_student'
+Learning: Print DataFrames after each transformation to verify structure
+Challenge 4: Missing Course Information
+Problem: studentAssessment table didn't have code_module/code_presentation columns
+Solution: Merged with assessments table first to add course info, then filtered
+Learning: Real data requires joining tables before you can filter properly
+Challenge 5: HackerRank "Repdigit" Problem Too Advanced
+Problem: Problem required mathematical patterns beyond current knowledge
+Decision: Recognized it was above current level and moved on
+Growth: Professional self-awareness - knowing when to skip vs persevere
+
+Coding Practice Wins
+✅ String manipulation: Removing spaces (.replace(), .strip())
+✅ String reversal: Using [::-1] slicing
+✅ Case swapping: Using .isupper(), .islower(), .upper(), .lower()
+✅ Professional code quality: Asking about explicit vs implicit behavior
+✅ Problem-solving: Multiple challenges solved independently after learning one pattern
+Emotional pattern observed:
+
+Hit wall with unfamiliar syntax → immediate frustration
+After learning ONE pattern → solved multiple problems independently
+Reinforces: "I don't know this YET" ≠ "I can't do this"
+
+
+Tools & Technical Setup
+New Capability Unlocked
+✅ SSL certificates installed - can now:
+
+Use sns.load_dataset() for seaborn datasets
+Download data from URLs without errors
+Install packages via pip without SSL issues
+
+Resources Created
+✅ Comprehensive Python & pandas Cheat Sheet
+
+~650 lines covering Setup Week through Week 2
+Organized by task type (not chronologically)
+Documentation-style syntax for all methods
+Quick reference tables for join types, merge functions
+Common patterns and mistakes section
+
+
+Daily Habits Maintained
+✅ GitHub commits: Multiple commits throughout day
+✅ DataCamp progress: Completed entire Chapter 4 + full course!
+✅ W3Schools practice: 15 minutes after DataCamp
+✅ Learning notes: Currently writing (Day 4 notes)
+✅ Jira updates: Will update before bed (practice script in progress)
+
+Investigate Further / Revise
+Concepts to Revisit:
+
+merge_asof details: Practice more with different direction options
+melt in practice: Haven't completed the melt section yet (tomorrow)
+String step parameter: Understand positive vs negative steps more deeply
+Forward fill edge cases: What happens with multiple grouping variables?
+
+Questions for Tomorrow:
+
+How does merge_asof handle ties (two equally close matches)?
+When would you use direction='forward' in real scenarios?
+Can you combine merge_asof with grouping (like merge_ordered with left_by/right_by)?
+
+Skills to Practice More:
+
+Dictionary creation for looping through DataFrames
+Explicit vs implicit code patterns (professional quality)
+Recognizing when problems are above current level (good judgment today!)
+
+
+What Went Well Today
+✅ Completed an entire DataCamp course! Major milestone
+✅ Strategic decision-making: Chose appropriate-level coding challenges for confidence building
+✅ Professional thinking: Asked about code quality (explicit vs implicit)
+✅ Problem-solving: Fixed SSL certificate issue systematically
+✅ Self-awareness: Recognized frustration building and stopped at appropriate time
+✅ Real data practice: Working with OULAD, not just toy datasets
+✅ Persistence: Kept going despite mental health challenges last week
+Growth Moments:
+
+Recognized when HackerRank problem was too advanced → moved on (professional judgment)
+Asked "why didn't this work?" instead of just adding workaround code (debugging mindset)
+Questioned whether code was efficient (semi join vs filtering) - strategic thinking
+Cared about code being explicit, not just working - professional standards
+
+
+What Was Challenging
+⚠️ Frustration building: By 21:30, getting tired and frustrated
+⚠️ Practice script length: Taking longer than expected (60% done)
+⚠️ Data preparation complexity: Real data messier than expected (missing columns, need merges)
+⚠️ Time pressure feeling: Awareness of being "behind schedule"
+How I Handled It:
+✅ Recognized frustration early
+✅ Asked for help making decision (keep going vs stop)
+✅ Chose rest over forcing completion
+✅ Proud of what was accomplished rather than focusing on incomplete parts
+
+Progress Toward Week Goals
+Week 2 Goals:
+
+✅ Complete "Joining Data with pandas" (ALL 4 CHAPTERS DONE!)
+⏸️ Create practice scripts demonstrating concepts (60% done, will finish tomorrow)
+✅ Maintain daily habits (100% compliance Days 1-4)
+✅ Industry research ongoing
+✅ Build confidence through appropriate-level practice
+
+Adjustment Made:
+
+Originally planned to finish Week 2 by Thursday
+Now finishing Week 3 on time instead (realistic adjustment)
+This is strategic flexibility, not failure
+
+
+Key Takeaway for Day 4
+Major Win: Completed an entire DataCamp course systematically! This is objective evidence of progress and capability.
+Professional Growth: Demonstrated mature decision-making - recognizing when to push, when to skip, when to stop. This is the judgment that makes someone effective in real work environments.
+Emotional Win: Stopped before burnout, chose rest, still proud of accomplishments. This prevents the "freeze and give up" pattern.
+Technical Confidence: Successfully worked with real, messy data. Merged tables, handled missing columns, created aggregations - these are real analyst skills.
+
+Plan for Tomorrow (Day 5)
+Complete Practice Script (15-20 min):
+
+Finish Step 8 (merge_asof)
+Add Step 9-11 (melt demonstration)
+Add comments throughout
+Final summary section
+Commit to GitHub
+
+Continue Week 2:
+
+Move forward with whatever Day 5 activities make sense
+Maintain daily habits
+Keep momentum from today's success
+
+Mindset:
+
+Fresh brain tomorrow = faster work
+60% done today + 40% tomorrow = complete
+One day adjustment ≠ derailed program
+Still on track for Week 3 completion
+
+
+Status: Days 1-4 showing strong progress. Systematic approach working. Professional judgment improving. Mental resilience building. 💪
+Tonight: Sleep proud. Tomorrow: Finish strong.
+
+Last Updated: Monday, February 9, 2026, 21:45
+Mood: Tired but accomplished. Making good decisions.
+Next Session: Tuesday morning - finish practice script fresh

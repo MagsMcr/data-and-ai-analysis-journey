@@ -87,3 +87,5 @@ print(f"Total meals in dataset: {len(tips)}")
 print(f"Average tip amount: ${tips['tip'].mean():.2f}")
 print(f"Date range: Thursday to Sunday")
 print(f"Meal times: Lunch and Dinner")
+
+print("hello world".split('o'))     # ['hell', ' w', 'rld']
