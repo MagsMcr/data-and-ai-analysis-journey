@@ -24,7 +24,7 @@ Analyzed nutrition knowledge and eating behaviors among college students, invest
 
 **Key finding:** Zero students reported "never exercising" despite anonymous survey, revealing systematic self-reporting bias in health behavior data.
 
-📁 [View Calorie Knowledge Analysis](practice-scripts/w3d1-README.md) | [View Exercise Analysis](practice-scripts/w3d2-README.md)
+📁 [View Calorie Knowledge Analysis](portfolio-projects/01-food-choices-analysis/) | [View Exercise Analysis](portfolio-projects/01-food-choices-analysis/)
 
 ---
 
@@ -41,7 +41,7 @@ Examined student unregistration patterns to identify:
 
 **Analytical approach:** Semi-joins and anti-joins to compare student cohorts, multiple sequential merges across demographic and assessment data.
 
-📁 [View Student Dropout Analysis](practice-scripts/w2d3-README.md)
+📁 [View Student Dropout Analysis](portfolio-projects/02-student-dropout-analysis/)
 
 ---
 
@@ -58,7 +58,7 @@ Created and analyzed fictional education publishing dataset demonstrating:
 
 **Context:** Designed to demonstrate pandas skills (Chapters 1-4) in education sector context relevant to target roles.
 
-📁 [View Education Publishing Analysis](practice-scripts/w1d5-README.md)
+📁 [View Education Publishing Analysis](portfolio-projects/03-education-publishing-analysis/)
 
 ---
 
