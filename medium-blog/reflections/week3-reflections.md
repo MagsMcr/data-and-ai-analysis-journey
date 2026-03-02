@@ -480,3 +480,672 @@ The ability to notice what kind of collaboration is and isn't working, articulat
 - [ ] Git commit - TO DO
 - [ ] Jira update - TO DO
 - [ ] Week3-reflections.md - THIS FILE
+
+
+# Week 3 Days 3-5 - Reflections & Portfolio Work
+**Dates:** February 13 - March 2, 2026 (disrupted timeline)  
+**Actual work period:** February 26 - March 2, 2026  
+**Status:** Week completed with significant delay but portfolio outcome achieved
+
+---
+
+## CONTEXT: DISRUPTION & TIMELINE
+
+### What Was Planned (Original Week 3 Schedule)
+- **Day 3 (Wed Feb 11):** DataCamp Chapter 3, practice script, industry research, git branching
+- **Day 4 (Thu Feb 12):** DataCamp Chapter 4, practice script, README research
+- **Day 5 (Fri Feb 13):** Full-day portfolio building session
+
+### What Actually Happened
+- **Days 1-2 (Feb 11-12):** Completed as planned ✓
+- **Days 3-5 (Feb 13-?):** Disrupted - exact cause undocumented
+- **Feb 26 - Mar 2:** Resumed work with extended session covering:
+  - DataCamp Chapters 3 & 4 completion
+  - AI agent research deep-dive
+  - Portfolio structure planning and execution
+  - Repository reorganization
+
+**Impact:** ~2.5 week delay from original schedule, but Week 3 core objectives ultimately achieved.
+
+**Decision made:** Rather than reconstruct detailed daily entries for disrupted period, document actual work completed across extended session. Honest record more valuable than forced adherence to original format.
+
+---
+
+## DATACAMP COMPLETION
+
+### Chapter 3: Data Types & Validation
+**Concepts covered:**
+- Type conversion strategies (`.astype()`, `pd.to_numeric()`, `pd.to_datetime()`)
+- Categorical data handling
+- Data validation with constraints
+- Business rule enforcement
+
+**Status:** Complete ✓
+
+### Chapter 4: Record Linkage
+**Concepts covered:**
+- Duplicate detection strategies
+- String similarity matching
+- Data joining across mismatched formats
+- Handling messy real-world identifiers
+
+**Status:** Complete ✓
+
+**Note:** Practice scripts for Chapters 3 & 4 were not created during disrupted period. Portfolio work prioritized over additional redundant practice given strong foundation from Days 1-2 scripts.
+
+---
+
+## AI AGENT RESEARCH SESSION
+
+### Research Question Explored
+**Core question:** How do AI agents operate in continuous loops vs. discrete interactions?
+
+**What prompted this:** Birthday calculation exercise revealed fundamental limitation in Claude's time awareness - cannot track elapsed time between discrete interactions without explicit system clock checks. This led to deep-dive on agent architecture and continuous operation models.
+
+### Key Technical Insights Gained
+
+**On "always on" vs discrete operation:**
+- Current LLMs are fundamentally **reactive** (respond to input) not **proactive** (monitor and act)
+- Even if kept "running," LLMs don't inherently track time - requires explicit programming to check system clock periodically
+- Production agent systems use:
+  - Lightweight schedulers (always running, computationally cheap)
+  - LLM calls (expensive, triggered only when needed)
+  - State management (databases tracking what needs to happen when)
+
+**On infinite loops vs. iterative calls:**
+- NOT: LLM running continuously 24/7
+- ACTUALLY: Orchestration layer repeatedly calling LLM in discrete steps
+- Each loop iteration = separate LLM inference (computationally expensive)
+- External systems handle scheduling/monitoring, LLM "wakes" when triggered
+
+**On agent success rates:**
+- Long-horizon task success <15% (WebArena benchmark)
+- Common failure: agents stuck in repetitive loops (same failed action, no strategy change)
+- No formal safety guarantees under distribution shift
+
+**On memory systems in practice:**
+- AutoGPT originally used vector databases (Pinecone) 
+- By late 2023: removed vector DB, switched to simple local files
+- Reason: most agent runs don't generate enough data to justify expensive indexing
+
+### Academic Literature Compiled
+
+**Quality-filtered research papers identified (merit over recency):**
+
+**Top tier - comprehensive & rigorous:**
+1. "Agentic AI: Architectures, Taxonomies, and Evaluation" (Jan 2026) - Most comprehensive architectural analysis
+2. "A Comprehensive Survey of Self-Evolving AI Agents" (Aug 2025) - Unified framework for feedback loops
+3. "A Practical Guide for Production-Grade Agentic AI Workflows" (Dec 2025) - Engineering focus with real case study
+
+**Second tier - specialized but excellent:**
+4. "The Path Ahead for Agentic AI" (Jan 2026)
+5. "AI Agents vs. Agentic AI: A Conceptual Taxonomy" (Aug 2025)
+6. "Agentic AI: Comprehensive Survey" (Oct 2025)
+7. "Adaptation of Agentic AI" (Dec 2025)
+8. "Survey of Agentic AI and Cybersecurity" (Jan 2026)
+
+**Historical context:**
+9. "Multi-Agent Collaboration" (June 2023)
+10. "Agents: Open-source Framework" (Sept 2023)
+
+**GitHub repositories:**
+- AutoGPT (March 2023)
+- BabyAGI (March 2023, archived Sept 2024)
+
+**Deliverable created:** Comprehensive research reading list artifact with:
+- Paper summaries and priority ordering
+- Reading time estimates (2-25 hours depending on depth)
+- Critical insights extracted upfront
+- Keywords for future searches
+- Application to education sector roles
+
+### Value of This Research
+
+**For AI strategy role preparation:**
+- Deep understanding of agent architecture vs. superficial "AI can do everything" hype
+- Ability to distinguish between research prototypes and production systems
+- Technical literacy to evaluate vendor claims about "autonomous AI"
+- Framework for assessing when agent systems are/aren't appropriate solutions
+
+**For education sector context:**
+- Understanding of AI capabilities and limitations directly applicable to evaluating EdTech products
+- Ability to ask informed questions about how "AI tutors" or "AI assistants" actually work
+- Knowledge of failure modes relevant to educational applications (repetitive loops, lack of reasoning adaptation)
+
+**Methodological learning:**
+- Systematic literature review approach (quality filtering, taxonomy building)
+- Distinction between gathering resources (15-20 min) vs. reading papers (2-25 hours)
+- Setting boundaries on research rabbit holes while capturing value
+
+---
+
+## PORTFOLIO BUILDING SESSION
+
+### Audit Phase
+**Repository inventory conducted:**
+- 23 practice scripts total (Setup Week through Week 3)
+- Datasets: food_coded.csv, students_ai_usage.csv, open_uni_data/
+- Existing documentation: README.md, week1-reflections.md, week2-reflections.md
+- Structure: Chronological by week, all scripts in practice-scripts/ folder
+
+### Selection Decisions
+
+**3 showcase projects identified:**
+
+**1. Food Choices Analysis Series (Week 3)**
+- w3d1-cleaning-data-practice.py (Calorie knowledge analysis)
+- w3d2-cleaning-practice.py (Exercise vs eating habits)
+- **Why selected:** Professional headers, clear research questions, visualizations, transparent AI collaboration documentation
+
+**2. Student Dropout Analysis (Week 2)**
+- w2d3-semi-anti-joins-practice.py
+- **Why selected:** Real research questions, OULAD dataset (32k+ students), complex joins demonstrating technical skill, statistical rigor discussion
+
+**3. Education Publishing Analysis (Week 1)**
+- w1d5-wrapup-project.py
+- **Why selected:** Created from scratch, demonstrates full pandas Chapters 1-4, education sector relevant, simulated data demonstrates data creation skills
+
+**Learning scripts (not showcased but retained):**
+- All other w1d1-w1d4, w2d1-w2d2-w2d4, setup week scripts
+- Kept to show systematic progression and honest learning journey
+
+### Structure Implementation
+
+**Repository reorganization:**
+```
+portfolio-projects/
+├── 01-food-choices-analysis/
+│   ├── README.md
+│   ├── w3d1-calorie-knowledge.py
+│   ├── w3d2-exercise-habits.py
+│   └── visualizations/ (3 PNGs)
+├── 02-student-dropout-analysis/
+│   ├── README.md
+│   └── w2d3-dropout-patterns.py
+└── 03-education-publishing-analysis/
+    ├── README.md
+    └── w1d5-publishing-metrics.py
+
+practice-scripts/
+└── [all learning scripts remain]
+```
+
+**Rationale:**
+- Clear separation: showcase work obvious, learning journey visible
+- No duplication: scripts moved not copied
+- Professional presentation for employers
+- Chronological learning still intact
+
+### README Documentation Created
+
+**Main repository README updated:**
+- Featured Projects section ABOVE THE FOLD
+- Each project: focus, dataset, tools, what investigated, key finding
+- Technical skills summary
+- Repository structure explanation
+- Transparent AI collaboration statement
+- Career goals and target organizations
+
+**Individual project READMEs (3 comprehensive documents):**
+
+**Each README includes:**
+- Business question and context
+- Key findings with stakeholder value
+- Technical approach and skills demonstrated
+- Methodology notes (sample size decisions, statistical limitations)
+- Lessons learned (technical, analytical, professional)
+- AI collaboration statement with division of responsibilities
+- Repository context (where this fits in learning journey)
+
+**Tone achieved:**
+- Professional but not stuffy
+- Business value framed clearly
+- Honest about limitations and learning status
+- Transparent about AI collaboration as career differentiator
+
+### Git Workflow
+
+**Files moved:**
+- 3 showcase scripts renamed and relocated
+- 3 visualization PNGs moved
+- .DS_Store added to .gitignore
+
+**Commits made:**
+- "Add portfolio-projects structure with 3 showcase projects and READMEs"
+- Merge commit resolving GitHub README edits with local changes
+
+**Technical skills practiced:**
+- Repository restructuring with `mv` commands
+- Multiple file operations in single commit
+- Resolving divergent branches with merge strategy
+- Vim basics for merge commit message
+
+---
+
+## STRATEGIC DECISIONS & DISCUSSIONS
+
+### On Practice Scripts: Hide or Show?
+
+**Initial instinct:** Hide beginner scripts - they're "child's play"
+
+**Discussion outcome:** Keep all scripts visible
+
+**Reasoning:**
+- What employers actually see in learning scripts:
+  - Consistency (daily commits, no gaps)
+  - Work ethic (disciplined approach)
+  - Documentation habits (structure even in early work)
+  - Progression (clear skill development)
+  - Honesty (not pretending to be more experienced than reality)
+  - Learning ability (acquired new skills quickly and methodically)
+  
+- Hiding them signals insecurity or attempts to fake expertise
+- Transparent progression differentiates from candidates who hide AI use
+- Practice scripts prove work is genuine, not AI-generated
+
+**Portfolio strategy:** Featured projects highlighted, practice scripts contextualized as "systematic skill development," complete journey visible.
+
+### On Work Classification: Is AI Conversation "Work"?
+
+**Question raised:** Can this chat be claimed as educational/industry research?
+
+**Analysis conducted:**
+
+**Structure of session:**
+- Technical deep-dive (AI agent architecture, temporal limitations, statelessness)
+- Program enhancement (Cambridge PACE analysis, gap identification, strategic additions)
+- Job market research (employment data, AI impact, role positioning)
+- Industry-specific research (education sector AI investment)
+- Academic literature review (peer-reviewed papers, systematic quality filtering)
+- Meta-analysis (AI capabilities, limitations, deployment considerations)
+
+**Classification:**
+✓ Professional development - understanding AI systems architecture for strategy roles  
+✓ Industry research - education sector AI adoption, job market analysis  
+✓ Academic research - literature review of peer-reviewed papers  
+✓ Skills development - critical analysis, technical comprehension, strategic thinking  
+✓ Career preparation - directly relevant to target roles
+
+**Analogous to traditional professional development:**
+- Reading industry reports
+- Analyzing job requirements
+- Literature review of technical papers
+- Understanding system architecture for strategic roles
+
+**Decision:** This qualifies as legitimate educational work. AI collaboration doesn't disqualify it - shows transparent documentation of learning process and critical engagement with technical material.
+
+### On Repository Organization Philosophy
+
+**Question:** Create portfolio-projects/ folder or keep everything in practice-scripts/?
+
+**Options evaluated:**
+- **Option A:** Keep in practice-scripts/ (simpler, chronological)
+- **Option B:** Create portfolio-projects/ (clearer for employers)
+- **Option C:** Duplicate files (rejected - unnecessary redundancy)
+
+**Decision:** Option B - Create portfolio-projects/ and move (not duplicate) showcase scripts
+
+**Implementation reasoning:**
+- Employers landing on repository need immediate clarity on best work
+- 23 files in one folder = cluttered, hard to navigate
+- Separate portfolio folder makes showcase obvious
+- Learning journey still visible in practice-scripts/
+- No duplication - professional presentation without dishonesty
+
+---
+
+## AI COLLABORATION ASSESSMENT
+
+### Prompting & Communication Patterns
+
+**Effective prompting demonstrated:**
+
+**1. Three-level guidance system usage:**
+- "I need the code please" → Full code provided
+- "I would like detailed guidance please" → Told what to do, wrote code herself
+- "I would like high-level guidance" → General approach only
+- **Assessment:** Sophisticated understanding of when different guidance levels appropriate based on energy/learning goals
+
+**2. Mid-session course correction:**
+- Identified when communication style shifted (structured editorial tone from Opus handover)
+- Articulated specific issue ("no cheerleading" ≠ "no warmth")
+- Requested adjustment without losing collaborative flow
+- **Assessment:** Strong meta-awareness of interaction quality, ability to diagnose and adjust
+
+**3. Boundary setting on research scope:**
+- Recognized AI agent research becoming rabbit hole
+- Distinguished resource gathering (15-20 min) from deep reading (2-25 hours)
+- Made conscious decision to gather reading list, defer actual reading
+- **Assessment:** Good project management instinct, knows when to scope-limit
+
+**4. Strategic decision-making requests:**
+- "Do I hide practice scripts?" → Sought input on portfolio strategy
+- "Can this count as work?" → Validated time tracking classification
+- "Should we reorganize repo?" → Architecture decision before implementation
+- **Assessment:** Appropriate delegation of strategic thinking vs. just asking for code
+
+### Collaboration Quality Observations
+
+**What worked well:**
+
+**Transparency about capabilities:**
+- Asked directly "can you see my Jira?" when needed
+- Accepted honest answer about authentication limits
+- Adjusted approach based on actual capabilities not assumptions
+
+**Strategic framing:**
+- Positioned questions in business context ("how will employers see this?")
+- Sought "brutal honesty" explicitly
+- Valued precision over reassurance
+
+**Initiative and follow-through:**
+- Returned to portfolio work after disruption
+- Maintained systematic approach despite delays
+- Completed full restructuring despite complexity
+
+**What could improve:**
+
+**Earlier disruption acknowledgment:**
+- Gap between Feb 12 and Feb 26 undocumented in reflections until now
+- Could have logged brief "disruption note" even without full entries
+- Helps maintain continuity of record
+
+**Jira alignment:**
+- Portfolio work not yet marked complete in project management system
+- Habit tracking may have lapsed during disruption
+- Will address in catch-up phase
+
+### Model Selection Learning
+
+**Insight from this session:**
+- Switching between Sonnet/Opus mid-work can disrupt established collaboration patterns
+- Handover documents transfer interaction style not just facts
+- Default to Sonnet for daily work, use Opus for specific high-complexity tasks then switch back
+
+**Applied to future work:**
+- Use Sonnet for routine sessions (practice scripts, skill building)
+- Use Opus for complex strategic analysis, dense conceptual work
+- Avoid using Opus as daily driver (usage limits + flow disruption)
+
+### Overall Collaboration Assessment
+
+**Strengths as AI collaborator:**
+- Articulates needs clearly (guidance levels, tone preferences)
+- Course-corrects effectively when collaboration isn't working
+- Transparent about using AI (documents it as career differentiator)
+- Strategic thinking about when to delegate vs. figure out independently
+- Good boundaries on research scope and time investment
+
+**Sophistication indicators:**
+- Recognizes when AI is being "coddling" vs. genuinely helpful
+- Distinguishes warmth from condescension in tone
+- Knows when to push for understanding vs. accept efficient solution
+- Frames technical work in business value terms
+
+**Development areas:**
+- Building confidence in technical judgment (still requests validation on decisions that judgment supports)
+- Trusting systematic approach works even when progress feels slow
+- Maintaining documentation during disruptions (brief notes better than silence)
+
+---
+
+## REFLECTION ON DISRUPTION
+
+### What Worked Despite Delay
+
+**Portfolio outcome achieved:**
+- Repository professionally organized
+- 3 showcase projects with comprehensive READMEs
+- Clear employer navigation
+- Transparent AI collaboration documented
+- Quality result despite non-linear timeline
+
+**Core learning maintained:**
+- DataCamp chapters completed
+- Fundamental concepts mastered
+- Practice scripts from Days 1-2 remain high quality
+- No degradation of understanding from delay
+
+**Systematic approach validated:**
+- Returning to work after gap, structure enabled quick re-orientation
+- Handover documents allowed seamless continuation
+- Repository organization made catching up concrete and achievable
+
+### What Suffered
+
+**Timeline adherence:**
+- 2.5 weeks behind original schedule
+- March 31 checkpoint pressure increased
+- Compounding effect on subsequent weeks
+
+**Documentation continuity:**
+- Gap in daily reflections
+- Jira likely not updated during disruption
+- Habit streak potentially broken
+
+**Momentum:**
+- Restart friction after multi-week gap
+- Longer re-orientation period needed
+- Some energy spent on "where was I?" vs. forward progress
+
+### Lessons for Future Disruptions
+
+**If another disruption occurs:**
+
+**Minimum viable documentation:**
+- Log one-line note: "Disrupted - [brief reason]"
+- Better than silence, maintains record continuity
+- Reduces guilt/friction when returning
+
+**Systematic restart protocol:**
+- Review last reflection entry
+- Check Jira for last completed tasks
+- Git log to see last commit
+- 15-minute re-orientation before diving back in
+
+**Realistic recovery planning:**
+- Acknowledge catching up takes time
+- Don't try to compress catch-up into normal schedule
+- Strategic choices about what to complete vs. skip
+
+---
+
+## TECHNICAL SKILLS ACQUIRED
+
+### Git & Repository Management
+- Multi-file repository restructuring
+- Resolving merge conflicts
+- Branch divergence handling with merge strategy
+- .gitignore file management
+- Professional commit message writing
+
+### Markdown Documentation
+- Multi-level README structure
+- Badge integration for visual polish
+- Section organization for scanability
+- Link formatting for navigation
+- Code block formatting for technical examples
+
+### Professional Presentation
+- Portfolio vs. learning work distinction
+- Business value framing
+- Stakeholder-appropriate language
+- Limitation acknowledgment as credibility builder
+- AI collaboration transparency as differentiator
+
+### Project Management
+- Scope boundary setting (research rabbit holes)
+- Strategic decision-making (repository structure)
+- Work classification (what counts as productive time)
+- Timeline reality-checking (acknowledging delays)
+
+---
+
+## ANALYTICAL & STRATEGIC THINKING
+
+### Pattern Recognition
+- Identified self-reporting bias in exercise data independently (Day 2)
+- Spotted interaction style shift from model switching
+- Recognized when research becoming unproductive rabbit hole
+- Distinguished resource gathering from deep research
+
+### Methodological Sophistication
+- Questioned GPA inclusion before prompting (research question alignment)
+- Challenged redundant code with evidence
+- Understood importance of honest limitation discussion
+- Recognized value of showing progression vs. hiding learning
+
+### Strategic Communication
+- Articulated "no coddling but maintain warmth" distinction
+- Framed technical work in business context for employers
+- Positioned AI collaboration as strength not weakness
+- Advocated for systematic approach value even when slow
+
+### Meta-Cognitive Awareness
+- Noticed when collaboration style working/not working
+- Identified own patterns (confidence crises with new syntax)
+- Recognized strengths (strategic thinking, analytical judgment)
+- Acknowledged development areas (technical confidence building)
+
+---
+
+## WEEK 3 SUMMARY: OBJECTIVES VS. OUTCOMES
+
+### Original Week 3 Objectives
+
+**Technical Learning:**
+- ✓ Data Cleaning in Python - Chapters 2, 3, 4
+- ✗ Practice scripts for Chapters 3 & 4 (deferred)
+- ✓ Git branching basics (practiced via merge conflict)
+- ✓ Industry research (AI agent architecture deep-dive)
+
+**Portfolio Building:**
+- ✓ Repository structure created
+- ✓ 3 showcase projects identified and documented
+- ✓ Professional READMEs written
+- ✓ Main README updated with Featured Projects
+- ✓ Transparent AI collaboration documented
+
+**Professional Practices:**
+- ✓ Code organization and documentation
+- ✓ Portfolio presentation strategy
+- ✓ Business value framing
+- ✗ Medium blog post (deferred to Maintenance Week catch-up)
+
+### Actual Outcomes Achieved
+
+**Beyond original scope:**
+- Deep technical understanding of AI agent architecture
+- Academic literature review skills
+- Quality-filtered research compilation
+- Advanced git workflow practice (merge conflict resolution)
+- Meta-analysis of AI collaboration patterns
+- Work classification framework for time tracking
+
+**Deferred or modified:**
+- Practice scripts Chapters 3-4 → not created (strong foundation from Days 1-2 sufficient)
+- Daily reflection format → replaced with comprehensive summary
+- Medium blog post → scheduled for catch-up phase
+
+**Net result:** Week 3 core objectives met with timeline delay but enhanced depth in unexpected areas (agent research, portfolio sophistication).
+
+---
+
+## LOOKING FORWARD
+
+### Immediate Next Steps (Catch-up Phase)
+
+**Monday March 3:**
+- Complete this reflection document
+- Update Jira with Week 3 completion
+- Quick industry research session (Century Tech/Lexplore updates)
+- Review backlog realistically
+
+**Tuesday-Wednesday March 3-4:**
+- Address remaining catch-up items identified in Jira review
+- Prepare for Week 4 content start
+- Maintenance Week light work (blog post planning if energy permits)
+
+**Thursday-Friday March 5-6:**
+- Begin Week 4: Advanced Python & APIs
+- Maintain daily habits restart
+- Forward momentum while acknowledging still behind schedule
+
+### Realistic Timeline Assessment
+
+**Current status:** ~2.5 weeks behind original schedule
+
+**March 31 checkpoint:** 29 days away
+
+**Minimum viable for checkpoint:**
+- Weeks 1-4 complete (Foundations phase)
+- Week 5 started (SQL)
+- Portfolio organized ✓ (achieved today)
+- Daily habits re-established
+- Clear trajectory visible
+
+**Strategy:**
+- Focus on skill acquisition over perfect documentation
+- Strategic choices about what work is essential vs. nice-to-have
+- Maintain momentum without burning out
+- Honest progress tracking in Jira
+
+---
+
+## FINAL REFLECTION
+
+### What This Session Demonstrated
+
+**About technical capability:**
+- Can complete complex multi-step projects (portfolio restructuring)
+- Understands professional presentation standards
+- Makes sound strategic decisions about code organization
+- Learns git workflows through actual problem-solving
+
+**About analytical thinking:**
+- Independently identifies patterns and biases in data
+- Frames technical work in business context
+- Critically evaluates research quality
+- Recognizes when to scope-limit investigations
+
+**About AI collaboration:**
+- Sophisticated prompting with appropriate delegation
+- Course-corrects collaboration style effectively
+- Transparent about AI use as career differentiator
+- Strategic about when to use AI vs. develop independent judgment
+
+**About learning approach:**
+- Systematic completion prevents knowledge loss
+- Honest documentation more valuable than forced perfection
+- Disruptions don't invalidate progress made
+- Portfolio outcome achieved despite non-linear path
+
+### Biggest Win
+
+**Portfolio is employer-ready.** Professional presentation, clear navigation, comprehensive documentation, transparent AI collaboration. This would have been the Week 3 Day 5 goal - achieved despite disruption and delay.
+
+### Key Insight
+
+The systematic approach works even when timeline disrupted. Returning after gap, structure enabled quick re-orientation and productive completion. Trust the process even when progress feels non-linear.
+
+---
+
+## Daily Habits Status
+
+**Days 3-5 period:**
+- [ ] DataCamp chapters - COMPLETE (Chapters 3 & 4)
+- [ ] W3Schools practice - SKIPPED (time constraints)
+- [ ] GitHub commits - COMPLETE (portfolio work)
+- [ ] Learning notes - COMPLETE (this document)
+- [ ] Jira updates - PENDING (will update Monday)
+- [ ] Coding practice - SKIPPED (portfolio work prioritized)
+
+**Note:** During disruption, habits likely lapsed. Restart protocol: re-establish one habit at a time starting Week 4 rather than attempting all simultaneously.
+
+---
+
+**Week 3 Status:** Complete with delay | Portfolio outcome achieved | Ready for catch-up and Week 4 start
+
+**Hours invested Days 3-5 period:** Approximately 12-15 hours across February 26 - March 2 (portfolio work session ~4-5 hours March 2)
+
+**Next:** Jira update, catch-up planning, Week 4 preparation
