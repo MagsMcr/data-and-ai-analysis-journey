@@ -581,3 +581,42 @@ audible_df['narrators'] = audible_df['narrators'].replace(
 print("\n--- narrators: standardisation verification ---")
 print(f"'unknown' narrators: {(audible_df['narrators'] == 'unknown').sum()}")
 print(f"'various narrators' entries: {(audible_df['narrators'] == 'various narrators').sum()}")
+
+# =============================================================================
+# PHASE 4: CLEANING — TIME
+# =============================================================================
+# convert duration strings to total minutes as integer
+# handles all format variants identified in Phase 2 audit:
+# hrs/hr, mins/min, "and", "Less than 1 minute" → 1
+
+import re
+
+def convert_to_minutes(text):
+    # handle edge case first
+    if 'less than 1 minute' in text.lower():
+        return 1
+    
+    hours = 0
+    minutes = 0
+    
+    # extract hours if present
+    hrs_match = re.search(r'(\d+)\s*hr', text)
+    if hrs_match:
+        hours = int(hrs_match.group(1))
+    
+    # extract minutes if present
+    mins_match = re.search(r'(\d+)\s*min', text)
+    if mins_match:
+        minutes = int(mins_match.group(1))
+    
+    return (hours * 60) + minutes
+
+print("\n--- cleaning: time ---")
+audible_df['audible_length_m'] = audible_df['time'].apply(convert_to_minutes)
+audible_df = audible_df.drop('time', axis=1)
+
+# verify
+print(f"Min duration: {audible_df['audible_length_m'].min()} mins")
+print(f"Max duration: {audible_df['audible_length_m'].max()} mins")
+print(f"Zero duration entries: {(audible_df['audible_length_m'] == 0).sum()}")
+print(f"\nSample:\n{audible_df['audible_length_m'].head(10)}")
