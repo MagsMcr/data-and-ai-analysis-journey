@@ -501,3 +501,83 @@ audible_df['authors'] = audible_df['authors'].replace(VARIOUS_AUTHORS, 'various 
 print("\n--- authors: standardisation verification ---")
 print(f"'unknown' entries: {(audible_df['authors'] == 'unknown').sum()}")
 print(f"'various authors' entries: {(audible_df['authors'] == 'various authors').sum()}")
+
+# =============================================================================
+# PHASE 4: CLEANING — NARRATOR
+# =============================================================================
+
+def clean_narrator_field(text):
+    # strip "Narratedby:" prefix (11 chars) and recover spaces from capitalisation
+    stripped = text[11:]
+    return ' '.join(re.sub(r"([A-Z])", r" \1", stripped).split())
+
+print("\n--- cleaning: narrator ---")
+audible_df['narrators'] = audible_df['narrator'].apply(clean_narrator_field)
+audible_df = audible_df.drop('narrator', axis=1)
+
+print(audible_df['narrators'].head(20).to_string())
+print(f"\nTotal unique narrator values: {audible_df['narrators'].nunique()}")
+
+# export unique values for systematic review before standardisation
+# same approach as author column — reviewing full unique value list avoids
+# missing language variants and unconventional expressions of unknown/anonymous
+output_path = 'portfolio-projects/audible-india-analysis/narrator_unique_values_cleaned.txt'
+with open(output_path, 'w', encoding='utf-8') as f:
+    f.write(f"Total unique narrator values (cleaned): {audible_df['narrators'].nunique()}\n\n")
+    for val, count in audible_df['narrators'].value_counts().items():
+        f.write(f"{count}\t{val}\n")
+
+print(f"Unique narrator values written to: {output_path}")
+
+# Cleaned narrator unique values were exported to narrator_unique_values_cleaned.txt
+# and reviewed with AI for any remaining anomalies requiring standardisation:
+# - several entries were identified as potentially indicating unknown or anonymous
+# narration — expressed in different conventions across the dataset.
+# - "uncredited" entries (326) are standardised to "unknown"
+
+# GENUINE UNKNOWNS — standardised to "unknown":
+#   "anonymous" (1,034)     — lowercase variant
+#   "Anonymous" (160)       — capitalised variant
+#   "unknown" (9)           — already correct
+#   "uncredited" (326)      — narrator exists but not credited by platform
+#   "Sylvia Browne, uncredited" (1) — named narrator with uncredited co-narrator
+
+# COLLECTIVE/VARIOUS — standardised to "various narrators":
+#   "div." (230)             — German/Dutch abbreviation
+#   "various" (11)           — lowercase variant
+#   "Various" (11)           — capitalised variant
+#   "variousnarrators" (1)   — spacing artefact from cleaning
+#   "Various Narrators" (1)  — spaced variant
+#   "variousvarious" (1)     — data entry error, same meaning
+#   "Diverse Diverse" (1)    — same
+
+# EDGE CASES — retained as-is:
+#   "Anonymousmembersof Al- Anon Family Groups" — organisation name
+#   mixed entries e.g. "Marc Thompson, Various" — named narrator with
+#                       various co-narrators; context preserved as-is
+
+UNKNOWN_NARRATORS = [
+    'anonymous', 'Anonymous', 'unknown', 'uncredited'
+]
+
+VARIOUS_NARRATORS = [
+    'div.', 'various', 'Various', 'variousnarrators',
+    'Various Narrators', 'variousvarious', 'Diverse Diverse'
+]
+
+# handle "Sylvia Browne, uncredited" separately — replace uncredited portion
+audible_df['narrators'] = audible_df['narrators'].str.replace(
+    ', uncredited', '', regex=False
+)
+
+audible_df['narrators'] = audible_df['narrators'].replace(
+    UNKNOWN_NARRATORS, 'unknown'
+)
+audible_df['narrators'] = audible_df['narrators'].replace(
+    VARIOUS_NARRATORS, 'various narrators'
+)
+
+# verify
+print("\n--- narrators: standardisation verification ---")
+print(f"'unknown' narrators: {(audible_df['narrators'] == 'unknown').sum()}")
+print(f"'various narrators' entries: {(audible_df['narrators'] == 'various narrators').sum()}")
