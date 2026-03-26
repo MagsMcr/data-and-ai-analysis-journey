@@ -620,3 +620,112 @@ print(f"Min duration: {audible_df['audible_length_m'].min()} mins")
 print(f"Max duration: {audible_df['audible_length_m'].max()} mins")
 print(f"Zero duration entries: {(audible_df['audible_length_m'] == 0).sum()}")
 print(f"\nSample:\n{audible_df['audible_length_m'].head(10)}")
+
+# =============================================================================
+# RELEASEDATE: PRE-CLEANING INVESTIGATION
+# =============================================================================
+# checking for any non-standard entries before attempting datetime conversion
+
+print("\n--- releasedate: pre-cleaning investigation ---")
+print(f"Total unique values: {audible_df['releasedate'].nunique()}")
+
+# check for any entries that don't match expected DD-MM-YY format
+import re
+unexpected = audible_df[
+    ~audible_df['releasedate'].str.match(r'^\d{2}-\d{2}-\d{2}$', na=False)
+]['releasedate'].value_counts()
+
+print(f"\nEntries not matching DD-MM-YY format: {len(unexpected)}")
+if len(unexpected) > 0:
+    print(unexpected)
+
+
+# =============================================================================
+# PHASE 4: CLEANING — RELEASEDATE
+# =============================================================================
+# convert from DD-MM-YY string to datetime
+# pandas default two-digit year interpretation: 00-68 → 2000-2068,
+# 69-99 → 1969-1999 — appropriate for this dataset given release dates observed
+
+print("\n--- cleaning: releasedate ---")
+audible_df['releasedate'] = pd.to_datetime(audible_df['releasedate'], format='%d-%m-%y')
+
+# verify
+print(f"Earliest release: {audible_df['releasedate'].min()}")
+print(f"Latest release: {audible_df['releasedate'].max()}")
+print(f"Null values: {audible_df['releasedate'].isna().sum()}")
+print(f"Dtype: {audible_df['releasedate'].dtype}")
+
+# checking for any implausible release dates within the 1998-2025 range
+print("\n--- releasedate: range check ---")
+print(f"Entries before 1998: {(audible_df['releasedate'] < '1998-01-01').sum()}")
+print(f"Entries after 2025-11-14: {(audible_df['releasedate'] > '2025-11-14').sum()}")
+print(f"\nFull year distribution:")
+print(audible_df['releasedate'].dt.year.value_counts().sort_index())
+
+# =============================================================================
+# PHASE 4: CLEANING — LANGUAGE
+# =============================================================================
+# standardise all values to lowercase
+# replace underscore with space in "mandarin_chinese"
+# full unique value enumeration confirmed in Phase 2 audit — 36 values
+
+print("\n--- cleaning: language ---")
+audible_df['language'] = audible_df['language'].str.lower()
+audible_df['language'] = audible_df['language'].str.replace('_', ' ', regex=False)
+
+# verify
+print(f"Unique values after cleaning: {audible_df['language'].nunique()}")
+print(f"\nFull distribution:")
+print(audible_df['language'].value_counts())
+
+# =============================================================================
+# STARS: PRE-CLEANING INVESTIGATION
+# =============================================================================
+# full unique value export before cleaning — Phase 2 audit confirmed structure
+# but only examined a sample; full enumeration needed before acting
+
+print("\n--- stars: pre-cleaning investigation ---")
+print(f"Total unique values: {audible_df['stars'].nunique()}")
+
+output_path = 'portfolio-projects/audible-india-analysis/stars_unique_values.txt'
+with open(output_path, 'w', encoding='utf-8') as f:
+    f.write(f"Total unique stars values: {audible_df['stars'].nunique()}\n\n")
+    for val, count in audible_df['stars'].value_counts().items():
+        f.write(f"{count}\t{val}\n")
+
+print(f"Unique stars values written to: {output_path}")
+
+# =============================================================================
+# PHASE 4: CLEANING — STARS
+# =============================================================================
+# split into two new columns:
+#   "audible_rating": float, 0.0 where unrated
+#   "ratings_count": integer, 0 where unrated
+# scale confirmed consistent ("out of 5 stars") across all rated entries
+# original "stars" column dropped after validation
+
+print("\n--- cleaning: stars ---")
+
+def extract_rating(text):
+    if text == 'Not rated yet':
+        return 0.0
+    match = re.search(r'(\d+\.?\d*) out of 5', text)
+    return float(match.group(1)) if match else 0.0
+
+def extract_ratings_count(text):
+    if text == 'Not rated yet':
+        return 0
+    match = re.search(r'(\d[\d,]*) rating', text)
+    return int(match.group(1).replace(',', '')) if match else 0
+
+audible_df['audible_rating'] = audible_df['stars'].apply(extract_rating)
+audible_df['ratings_count'] = audible_df['stars'].apply(extract_ratings_count)
+audible_df = audible_df.drop('stars', axis=1)
+
+# verify
+print(f"Unrated entries (audible_rating = 0.0): {(audible_df['audible_rating'] == 0.0).sum()}")
+print(f"Unrated entries (ratings_count = 0): {(audible_df['ratings_count'] == 0).sum()}")
+print(f"Rating range (excluding unrated): {audible_df[audible_df['audible_rating'] > 0]['audible_rating'].min()} - {audible_df[audible_df['audible_rating'] > 0]['audible_rating'].max()}")
+print(f"Max ratings count: {audible_df['ratings_count'].max():,}")
+print(f"\nSample:\n{audible_df[['audible_rating', 'ratings_count']].head(10)}")
