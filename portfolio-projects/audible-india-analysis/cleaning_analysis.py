@@ -729,3 +729,71 @@ print(f"Unrated entries (ratings_count = 0): {(audible_df['ratings_count'] == 0)
 print(f"Rating range (excluding unrated): {audible_df[audible_df['audible_rating'] > 0]['audible_rating'].min()} - {audible_df[audible_df['audible_rating'] > 0]['audible_rating'].max()}")
 print(f"Max ratings count: {audible_df['ratings_count'].max():,}")
 print(f"\nSample:\n{audible_df[['audible_rating', 'ratings_count']].head(10)}")
+
+# =============================================================================
+# PRICE: PRE-CLEANING INVESTIGATION
+# =============================================================================
+# exporting all unique values before cleaning — confirms expected formats
+# and identifies any unexpected strings or variants before conversion
+
+print("\n--- price: pre-cleaning investigation ---")
+print(f"Total unique values: {audible_df['price'].nunique()}")
+
+output_path = 'portfolio-projects/audible-india-analysis/price_unique_values.txt'
+with open(output_path, 'w', encoding='utf-8') as f:
+    f.write(f"Total unique price values: {audible_df['price'].nunique()}\n\n")
+    for val, count in audible_df['price'].value_counts().items():
+        f.write(f"{count}\t{val}\n")
+
+print(f"Unique price values written to: {output_path}")
+
+# =============================================================================
+# PHASE 4: CLEANING — PRICE
+# =============================================================================
+# strip commas, handle "Free" → 0.0, convert to float
+# two entries with non-round prices (444.95, 1007.95) confirmed legitimate
+# high-end outliers (up to 7,198.00) confirmed plausible — to be investigated
+# in price analysis thread
+
+print("\n--- cleaning: price ---")
+
+def clean_price(text):
+    if text == 'Free':
+        return 0.0
+    return float(text.replace(',', ''))
+
+audible_df['price'] = audible_df['price'].apply(clean_price)
+
+# verify
+print(f"Dtype: {audible_df['price'].dtype}")
+print(f"Min price: {audible_df['price'].min()}")
+print(f"Max price: {audible_df['price'].max()}")
+print(f"Free entries (0.0): {(audible_df['price'] == 0.0).sum()}")
+print(f"Null values: {audible_df['price'].isna().sum()}")
+
+# =============================================================================
+# PHASE 4: CLEANING — DEDUPLICATION
+# =============================================================================
+# check for rows identical across ALL columns — drop confirmed exact duplicates
+# name alone is not a sufficient deduplication key (confirmed in Phase 2 audit)
+
+print("\n--- cleaning: deduplication ---")
+duplicates = audible_df.duplicated().sum()
+print(f"Exact duplicate rows found: {duplicates}")
+
+if duplicates > 0:
+    audible_df = audible_df.drop_duplicates()
+    print(f"Duplicates dropped. Remaining rows: {len(audible_df)}")
+else:
+    print(f"No exact duplicates found. Rows unchanged: {len(audible_df)}")
+
+# =============================================================================
+# PHASE 4: OUTPUT — SAVE CLEANED DATASET
+# =============================================================================
+# saved as separate file — raw data never overwritten
+
+output_path = 'datasets/audible-india/audible_cleaned.csv'
+audible_df.to_csv(output_path, index=False)
+print(f"\nCleaned dataset saved to: {output_path}")
+print(f"Final shape: {audible_df.shape}")
+print(f"\nFinal columns: {list(audible_df.columns)}")
