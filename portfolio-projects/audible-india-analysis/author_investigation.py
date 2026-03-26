@@ -88,3 +88,32 @@ print(f"Total unique entries with hyphens: {len(hyphen_entries)}")
 print()
 print(hyphen_entries)
 np.set_printoptions(threshold=1000)
+
+# =============================================================================
+# PART 4: CHECKING FOR UNKNOWN/ANONYMOUS/MISSING AUTHOR VARIATIONS
+# checking raw author column for any values indicating missing authorship
+# =============================================================================
+
+print("\n" + "=" * 60)
+print("PART 4: UNKNOWN/ANONYMOUS/MISSING AUTHOR VARIATIONS")
+print("=" * 60)
+
+# write full unique author values to file for manual inspection
+output_path = 'author_unique_values.txt'
+with open(output_path, 'w', encoding='utf-8') as f:
+    f.write(f"Total unique author values: {audible_df['author'].nunique()}\n\n")
+    for val, count in audible_df['author'].value_counts().items():
+        f.write(f"{count}\t{val}\n")
+
+print(f"Full unique author values written to: {output_path}")
+print("Scan this file for any unknown/anonymous/missing variations")
+
+# also do a quick targeted check for the most common suspect patterns
+print("\nQuick check for common missing value indicators:")
+suspects = ['anonymous', 'unknown', 'anon', 'n/a', 'none', 
+            'various', 'div', 'N.N', 'N. N']
+for s in suspects:
+    count = audible_df['author'].str.contains(s, case=False, na=False).sum()
+    if count > 0:
+        print(f"  '{s}': {count} entries")
+        print(audible_df[audible_df['author'].str.contains(s, case=False, na=False)]['author'].value_counts().head(5).to_string())

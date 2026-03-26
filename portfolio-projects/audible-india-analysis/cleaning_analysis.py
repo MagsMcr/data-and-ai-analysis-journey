@@ -280,14 +280,21 @@ print(audible_df[audible_df['name'] == sample_title].to_string())
 #               checked and dropped post-cleaning
 
 # author      — strip "Writtenby:" prefix (10 chars); recover spaces via
-#               capitalisation regex; remove contributor segments using
-#               role-keyword dictionary (translator, Übersetzer, traductor,
-#               traductrice, traducteur, tradução, traduttore, editor, foreword,
-#               illustrator, and variants — full list in author_field_investigation.py)
-#               natural name hyphens preserved — dictionary matches role labels
-#               only, not name components
-#               non-Latin names retained — analytical limitation documented
-#               → new col "authors"; original dropped
+#               capitalisation regex
+#               split into two new columns:
+#               "authors" — primary authors only (segments with no role label)
+#                           spaces recovered via capitalisation regex
+#                           non-Latin names retained as-is
+#               "contributors" — all tagged contributor segments retained
+#                           as-is (translators, editors, illustrators, etc.)
+#                           preserved for potential future analysis
+#                           not cleaned — raw contributor strings minus prefix
+#               role-keyword dictionary used to distinguish primary authors
+#               from contributors — full list in author_field_investigation.py
+#               original "author" column dropped
+#               note: where ALL segments carry a role label, "authors" = "unknown"
+#               post-cleaning: unique values exported for verification;
+#               unknown/anonymous/various variants handled separately
 
 # narrator    — strip "Narratedby:" prefix (11 chars); recover spaces via
 #               same capitalisation regex
@@ -319,3 +326,178 @@ print(audible_df[audible_df['name'] == sample_title].to_string())
 
 # output      — save as datasets/audible-india/audible_cleaned.csv
 #               raw file never overwritten
+
+# =============================================================================
+# PHASE 4: CLEANING — AUTHOR
+# =============================================================================
+# full investigation of author field patterns in: author_field_investigation.py
+# role-keyword dictionary used to separate primary authors from contributors
+
+import re
+
+ROLE_KEYWORDS = [
+    'translator', 'Translator', 'translatedby', 'Translatedby',
+    'Übersetzer', 'Übersetzung',
+    'traductor', 'traductora', 'traductrice', 'traducteur',
+    'tradução', 'traduttore', 'traductora',
+    'editor', 'Editor', 'editedby', 'Editedby', 'editorandtranslator',
+    'editortranslatorannotation', 'editorandcompiler', 'editor/translator',
+    'editor/compilation', 'editortranslator', 'editorintroduction',
+    'foreword', 'Foreword', 'forewordby', 'Forewordby', 'ForewordPhD',
+    'foreward', 'forewardby', 'Forewardby',
+    'introduction', 'Introduction',
+    'illustrator', 'Illustrator', 'ilustrador', 'ilustrador', 'Illustrateur',
+    'contributor', 'Contributor', 'contributions',
+    'afterword', 'Afterword', 'afterwordby',
+    'preface', 'with', 'With', 'scribe', 'adaptation', 'adaption',
+    'creator', 'photographer', 'director', 'Director',
+    'compilation', 'compilador', 'curatore',
+    'forewordandcontributor', 'introductioncontributor',
+    'translatorcontributor', 'translatorandeditor',
+    'prefaceandnotes', 'commentaryby', 'commentaries',
+    'Serieseditedby', 'translatorintroduction', 'translatorafterword',
+    'editorforeword', 'forewordMDFAAP', 'translatorafterword',
+]
+
+def split_author_field(text):
+    """
+    Strip prefix, split into primary authors and contributors
+    using role-keyword dictionary.
+    Returns tuple: (authors_string, contributors_string)
+    """
+    # strip "Writtenby:" prefix (10 chars)
+    text = text[10:]
+    
+    # split on comma to get individual segments
+    segments = [s.strip() for s in text.split(',') if s.strip()]
+    
+    primary = []
+    contributor = []
+    
+    for segment in segments:
+        has_role = False
+        if '-' in segment:
+            parts = segment.split('-')
+            for part in parts[1:]:
+                part_clean = part.strip().rstrip('.,')
+                if any(part_clean.startswith(role) for role in ROLE_KEYWORDS):
+                    has_role = True
+                    break
+        if has_role:
+            contributor.append(segment)
+        else:
+            primary.append(segment)
+    
+    # recover spaces from capitalisation for primary authors only
+    authors_str = ', '.join(primary)
+    authors_str = ' '.join(re.sub(r"([A-Z])", r" \1", authors_str).split())
+    
+    # contributors retained as-is (raw, uncleaned)
+    contributors_str = ', '.join(contributor)
+    
+    return (authors_str if authors_str else 'unknown', contributors_str)
+
+
+print("\n--- cleaning: author ---")
+audible_df['authors'] = audible_df['author'].apply(
+    lambda x: split_author_field(x)[0]
+)
+audible_df['contributors'] = audible_df['author'].apply(
+    lambda x: split_author_field(x)[1]
+)
+audible_df = audible_df.drop('author', axis=1)
+
+# verify
+print(audible_df[['authors', 'contributors']].head(20).to_string())
+print(f"\nUnknown authors: {(audible_df['authors'] == 'unknown').sum()}")
+print(f"Entries with contributors: {(audible_df['contributors'] != '').sum()}")
+
+# =============================================================================
+# AUTHOR: EXPORTING UNIQUE VALUES FOR VERIFICATION
+# =============================================================================
+# — post-cleaning verification revealed 329 entries where authors = 'unknown'
+#   (cases where every author field segment carried a contributor role label)
+# — decision taken to investigate further for any other missing/anonymous
+#   variants before standardisation — particularly multi-language equivalents
+#   not caught during Phase 2 audit (e.g. "N.N.", "Diverse", "Autori Vari")
+
+output_path = 'portfolio-projects/audible-india-analysis/author_unique_values_cleaned.txt'
+with open(output_path, 'w', encoding='utf-8') as f:
+    f.write(f"Total unique author values (cleaned): {audible_df['authors'].nunique()}\n\n")
+    for val, count in audible_df['authors'].value_counts().items():
+        f.write(f"{count}\t{val}\n")
+
+print(f"Unique author values written to: {output_path}")
+
+# Cleaned author unique values were exported to author_unique_values_cleaned.txt
+# and fed to AI to review for any remaining anomalies requiring standardisation:
+# - several entries were identified as potentially indicating unknown or anonymous
+# authorship — expressed in different languages and conventions across the dataset
+# - among these, N. N. entries were suspected to be the Latin "nomen nescio"
+# (name unknown) — and are being verified in context before standardising.
+
+# quick verification: checking N. N. entries in context
+print("\n--- authors: N. N. verification sample ---")
+pd.set_option('display.max_colwidth', None)
+print(audible_df[audible_df['authors'] == 'N. N.'][['name', 'language', 'narrator']].sample(20, random_state=42).to_string())
+pd.reset_option('display.max_colwidth')
+
+# =============================================================================
+# AUTHOR: STANDARDISING UNKNOWN AND VARIOUS AUTHORSHIP VALUES
+# =============================================================================
+# review of author_unique_values_cleaned.txt identified three categories
+# of entries: 
+#
+# GENUINE UNKNOWNS — will be standardised to "unknown":
+#   "unknown" (329)         — produced by cleaning function where no primary
+#                             author segment was identifiable
+#   "N. N." (128)           — Latin "nomen nescio" (name unknown),
+#                             confirmed as anonymous authorship
+#   "auteurinconnu" (17)    — French "unknown author"
+#   "auteursinconnus" (1)   — French plural equivalent
+#   "Anonymous" (15)        — English
+#   "anonymous" (4)         — lowercase variant
+#   "Anonimo" (2)           — Italian equivalent
+#   "Unknown" (4)           — capitalised variant
+#
+# COLLECTIVE AUTHORSHIP — will be standardised to "various authors":
+#   "div." / "Div." (274+7) — German/Dutch abbreviation for "diverse authors"
+#   "Variousauthors" (88)   — spacing artefact from cleaning
+#   "variousauthors" (4)    — lowercase variant
+#   "Various" (22)          — abbreviated form
+#   "various" (5)           — lowercase variant
+#   "Various Authors" (3)   — spaced variant
+#   "Autori Vari" (57)      — Italian equivalent
+#   "Diverse" (34)          — German/Italian equivalent
+#   "Diverse, Variousauthors" (5) — combined variant
+#   retained as distinct category — anthology/compilation content may differ
+#   meaningfully in ratings and pricing from single-author works
+#
+# EDGE CASES — retained as-is:
+#   "Alcoholics Anonymous"           — organisation name, not missing value
+#   "Unknown Soldier"                — known historical anonymous, not missing
+#   "Anonymous(former Olympian)"     — attributed anonymous, not missing
+#   "Karen Joy Hardwick M Div M S W" — "Div" is academic qualification
+#   "Elijah C. Nealy Ph D M Div L C S W" — same
+#   mixed entries e.g. "Hans Scholl, div." — real author with collective
+#                             co-authors; context preserved as-is
+
+# standardisation maps
+UNKNOWN_AUTHORS = [
+    'unknown', 'Unknown', 'N. N.', 'auteurinconnu', 'auteursinconnus',
+    'Anonymous', 'anonymous', 'Anonimo', 'Anonimo'
+]
+
+VARIOUS_AUTHORS = [
+    'div.', 'Div.', 'Variousauthors', 'variousauthors', 'Various',
+    'various', 'Various Authors', 'Autori Vari', 'Diverse',
+    'Diverse, Variousauthors'
+]
+
+audible_df['authors'] = audible_df['authors'].replace(UNKNOWN_AUTHORS, 'unknown')
+audible_df['authors'] = audible_df['authors'].replace(VARIOUS_AUTHORS, 'various authors')
+
+# verify
+print("\n--- authors: standardisation verification ---")
+print(f"'unknown' entries: {(audible_df['authors'] == 'unknown').sum()}")
+print(f"'various authors' entries: {(audible_df['authors'] == 'various authors').sum()}")
